@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "509971332541",
+    "firebase_url": "https://gustoboliviano-d8941.firebaseio.com",
+    "project_id": "gustoboliviano-d8941",
+    "storage_bucket": "gustoboliviano-d8941.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509971332541:android:3eed400f9b93c7f5",
+        "android_client_info": {
+          "package_name": "com.fuzzyapps.gustoboliviano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509971332541-3eb4966n52if9tn7vluei5di1jgvqm5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fuzzyapps.gustoboliviano",
+            "certificate_hash": "3170C56DE6752E3A2ED9D6A10DA1C4DC8DEB3394"
+          }
+        },
+        {
+          "client_id": "509971332541-u9fag2vdru50lmak2j71m8pdkn3gguc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcb3hiAWLB3TQO516DM_U2e7L9pxf-JUg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
