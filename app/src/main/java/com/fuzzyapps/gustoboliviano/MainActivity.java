@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private ProfileTracker profileTracker;
     private String TAG = "@MyGvs";
     private int c;
+    private String userName="";
+    private String userID="";
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
@@ -144,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     fireBaseTextID.setText(user.getUid());
                     message("ID:"+ user.getUid());
+                    userID = user.getUid();
+                    redirectNextActivity();
+
                 }else{
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     fireBaseTextID.setText("");
@@ -158,6 +163,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void redirectNextActivity() {
+        Intent i = new Intent(MainActivity.this, EditProfile.class);
+        i.putExtra("userName", userName);
+        i.putExtra("userID", userID);
+        startActivity(i);
+        finish();
+    }
+
     //Change Google text
     protected void setGooglePlusButtonText(SignInButton signInButton, int buttonText) {
         // Find the TextView that is inside of the SignInButton and set its text
@@ -184,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 //setText Google
                 //account.getEmail()
                 textView.setText("Welcome "+account.getGivenName()+ " "+ account.getFamilyName());
+                userName = account.getGivenName()+ " "+ account.getFamilyName();
                 firebaseAuthWithGoogle(account);
             } else {
                 // Google Sign In failed, update UI appropriately
@@ -219,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
     private void almacenarDatosMomentaneamente(Profile profile){
         if(profile!= null){
             textView.setText("Welcome "+profile.getName());
+            userName = profile.getName();
         }else{
 
         }

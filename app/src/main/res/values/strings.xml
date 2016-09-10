@@ -3,4 +3,5 @@
     <string name="facebook_app_id">332394123766181</string>
     <string name="googleSignInText">GOOGLE</string>
     <string name="facebookSignInText">FACEBOOK</string>
+    <string name="title_activity_edit_profile">Editar Perfíl</string>
 </resources>
