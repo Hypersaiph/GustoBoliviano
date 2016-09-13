@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.fuzzyapps.gustoboliviano"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.2.0'
     compile 'com.google.android.gms:play-services-auth:9.2.0'
     compile 'com.android.support:design:24.2.0'
+    compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:1.0.7'
 }
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'
