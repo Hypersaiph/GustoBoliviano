@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.fuzzyapps.gustoboliviano"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -21,15 +21,16 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
-    compile 'com.google.firebase:firebase-core:9.2.0'
-    compile 'com.google.firebase:firebase-database:9.2.0'
-    compile 'com.google.firebase:firebase-auth:9.2.0'
-    compile 'com.google.android.gms:play-services-auth:9.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:1.0.7'
+    compile 'com.android.support:support-v4:24.2.1'
+    testCompile 'junit:junit:4.12'
 }
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'
