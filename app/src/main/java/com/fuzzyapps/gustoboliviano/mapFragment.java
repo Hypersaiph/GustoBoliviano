@@ -41,7 +41,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 parent.removeView(view);
         }
         try {
-            view = inflater.inflate(R.layout.fragment_map, container, false);
+            view = inflater.inflate(R.layout.map_fragment, container, false);
         } catch (InflateException e) {
             //Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
         }

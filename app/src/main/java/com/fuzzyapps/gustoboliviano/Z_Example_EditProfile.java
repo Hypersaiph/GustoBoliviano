@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class EditProfile extends AppCompatActivity {
+public class Z_Example_EditProfile extends AppCompatActivity {
 
     private Button updateButton;
     private EditText userName;
@@ -23,7 +23,7 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        //setContentView(R.layout.activity_edit_profile);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuario");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -31,8 +31,8 @@ public class EditProfile extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("userName");
         userId = bundle.getString("userID");
-        updateButton = (Button) findViewById(R.id.updateButton);
-        userName = (EditText) findViewById(R.id.userName);
+        //updateButton = (Button) findViewById(R.id.updateButton);
+        //userName = (EditText) findViewById(R.id.userName);
         userName.setText(username);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,14 +40,14 @@ public class EditProfile extends AppCompatActivity {
                 writeNewUser(userId,userName.getText().toString(),"");
             }
         });
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);

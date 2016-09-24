@@ -44,10 +44,16 @@ public class MainNavigationActivity extends BaseActivity implements BottomNaviga
             case 0:
                 primaryColor = Color.parseColor("#1F1F1F");
                 darkColor = Color.parseColor("#000000");
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new startFragment())
+                        .commit();
                 break;
             case 1:
                 primaryColor = Color.parseColor("#669900");
                 darkColor = Color.parseColor("#527a00");
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new searchFragment())
+                        .commit();
                 break;
             case 2:
                 primaryColor = Color.parseColor("#FF5252");
@@ -59,10 +65,16 @@ public class MainNavigationActivity extends BaseActivity implements BottomNaviga
             case 3:
                 primaryColor = Color.parseColor("#FF8800");
                 darkColor = Color.parseColor("#e07800");
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new notificationFragment())
+                        .commit();
                 break;
             case 4:
                 primaryColor = Color.parseColor("#764ac6");
                 darkColor = Color.parseColor("#4d2b89");
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new profileFragment())
+                        .commit();
                 break;
         }
         toolbar.setBackgroundColor(primaryColor);
