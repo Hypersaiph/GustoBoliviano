@@ -3,7 +3,7 @@
     <color name="colorPrimary">#1F1F1F</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
-
+    <color name="colorButton">#991041</color>
     <!-- Colors For Nav Bar -->
     <color name="firstView">#1F1F1F</color>
     <color name="secondView">#669900</color>
