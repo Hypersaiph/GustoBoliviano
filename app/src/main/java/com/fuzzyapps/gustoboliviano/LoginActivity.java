@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -38,7 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private Intent intent = null;
     private static final int RC_SIGN_IN = 3;
     //UI Variables
     private TextView textView,fireBaseTextID;
@@ -147,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                     message("ID:"+ user.getUid());
                     userID = user.getUid();
                     redirectNextActivity();
-
                 }else{
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     fireBaseTextID.setText("");
@@ -164,11 +162,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void redirectNextActivity() {
-        Intent i = new Intent(LoginActivity.this, MainNavigationActivity.class);
-        i.putExtra("userName", userName);
-        i.putExtra("userID", userID);
-        startActivity(i);
-        finish();
+        if (intent == null) {
+            intent = new Intent(LoginActivity.this, MainNavigationActivity.class);
+            intent.putExtra("userName", userName);
+            intent.putExtra("userID", userID);
+            startActivity(intent);
+            finish();
+        }
     }
 
     //Change Google text

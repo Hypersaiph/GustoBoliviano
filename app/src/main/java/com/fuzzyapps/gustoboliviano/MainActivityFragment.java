@@ -15,16 +15,14 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.readystatesoftware.systembartint.SystemBarTintManager.SystemBarConfig;
 import com.squareup.picasso.Picasso;
-
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
-
 /**
  * A placeholder fragment containing a simple view.
  */
+
 public class MainActivityFragment extends Fragment {
     private static final String TAG = MainActivityFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
@@ -32,9 +30,7 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() { }
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 

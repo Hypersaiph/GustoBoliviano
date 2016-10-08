@@ -58,7 +58,10 @@ public class MainNavigationActivity extends BaseActivity implements BottomNaviga
         changeToolbarColor(position);
         Toast.makeText(MainNavigationActivity.this,""+position,Toast.LENGTH_SHORT).show();
     }
-
+    @Override
+    public void onMenuItemReselect(@IdRes final int itemId, final int position) {
+        Toast.makeText(MainNavigationActivity.this,"2. "+position,Toast.LENGTH_SHORT).show();
+    }
     private void changeToolbarColor(int position) {
         int primaryColor = 0;
         int darkColor = 0;
@@ -106,10 +109,5 @@ public class MainNavigationActivity extends BaseActivity implements BottomNaviga
             getWindow().setNavigationBarColor(primaryColor);
             getWindow().setStatusBarColor(darkColor);
         }
-    }
-
-    @Override
-    public void onMenuItemReselect(@IdRes final int itemId, final int position) {
-        Toast.makeText(MainNavigationActivity.this,"2. "+position,Toast.LENGTH_SHORT).show();
     }
 }
