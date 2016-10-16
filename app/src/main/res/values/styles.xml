@@ -31,8 +31,4 @@
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="textAllCaps">true</item>
     </style>
-    <style name="myRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/my_ratingbar_full</item>
-        <item name="android:indeterminateDrawable">@drawable/my_ratingbar_full</item>
-    </style> //para poner cerditos en lugar de estrellas
 </resources>
