@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -36,7 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends AppCompatActivity {
+public class activityLogin extends AppCompatActivity {
     private Intent intent = null;
     private static final int RC_SIGN_IN = 3;
     //UI Variables
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         //Iniciando Facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         //Iniciando Firebase
         mAuth = FirebaseAuth.getInstance();
         //UI Elements
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void redirectNextActivity() {
         if (intent == null) {
-            intent = new Intent(LoginActivity.this, MainNavigationActivity.class);
+            intent = new Intent(activityLogin.this, activityNavigation.class);
             intent.putExtra("userName", userName);
             intent.putExtra("userID", userID);
             startActivity(intent);
@@ -268,7 +268,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void message(String message) {
-        c++;Toast.makeText(this,c+""+message,Toast.LENGTH_SHORT).show();
+        c++;//Toast.makeText(this,c+""+message,Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onStart() {

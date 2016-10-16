@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimaryDark">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/profileImage"

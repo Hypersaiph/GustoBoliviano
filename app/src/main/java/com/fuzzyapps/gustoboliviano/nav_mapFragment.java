@@ -1,55 +1,45 @@
 package com.fuzzyapps.gustoboliviano;
 
-
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class mapFragment extends Fragment implements OnMapReadyCallback {
-
+public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private View view;
 
-    public mapFragment() {
-        // Required empty public constructor
-    }
-
-
+    public nav_mapFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //view = inflater.inflate(R.layout.fragment_map, container, false);
         if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
         }
         try {
-            view = inflater.inflate(R.layout.map_fragment, container, false);
+            view = inflater.inflate(R.layout.nav_map_fragment, container, false);
         } catch (InflateException e) {
             //Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-        MapFragment mapFragment = (MapFragment)  this.getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         return view;
     }
-
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //AQUI INICIALIZAR LOS OBJETOS
+        MapFragment mapFragment = (MapFragment)  this.getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

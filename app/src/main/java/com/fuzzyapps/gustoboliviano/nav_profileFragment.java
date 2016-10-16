@@ -4,33 +4,26 @@ package com.fuzzyapps.gustoboliviano;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class profileFragment extends Fragment {
-
-
-    private View view;
+public class nav_profileFragment extends Fragment {
     LayoutInflater layoutInflater;
-    public profileFragment() {
-        // Required empty public constructor
-    }
 
-
+    public nav_profileFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.profile_fragment, container, false);
+        return inflater.inflate(R.layout.nav_profile_fragment, container, false);
+    }
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //AQUI INICIALIZAR LOS OBJETOS
         layoutInflater = getActivity().getLayoutInflater();
         displayAlertDialog();
-        return view;
     }
     private void displayAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

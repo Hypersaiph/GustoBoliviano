@@ -11,22 +11,22 @@
         android:title="Inicio" />
     <item
         android:id="@+id/secondView"
-        android:color="@color/secondView"
+        android:color="@color/firstView"
         android:icon="@drawable/ic_cast_connected_white_24dp"
         android:title="Búsqueda" />
     <item
         android:id="@+id/thirdView"
-        android:color="@color/thirdView"
+        android:color="@color/firstView"
         android:icon="@drawable/ic_mail_white_24dp"
         android:title="Mapa" />
     <item
         android:id="@+id/fourthView"
-        android:color="@color/fourthView"
+        android:color="@color/firstView"
         android:icon="@drawable/ic_format_list_numbered_white_24dp"
         android:title="Notificaciones" />
     <item
         android:id="@+id/fifthView"
-        android:color="@color/fifthView"
+        android:color="@color/firstView"
         android:icon="@drawable/ic_cloud_off_white_24dp"
         android:title="Perfil" />
 </menu>

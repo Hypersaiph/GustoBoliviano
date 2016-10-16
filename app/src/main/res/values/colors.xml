@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1F1F1F</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorPrimary">#525252</color>
+    <color name="colorPrimaryDark">#333333</color>
+    <color name="colorAccent">#949494</color>
     <color name="colorButton">#991041</color>
     <color name="primaryText">#212121</color>
-    <color name="white">#fff</color>
+    <color name="white">#ffffff</color>
+    <color name="colorFollowing">#525252</color>
+    <color name="colorFollowingDark">#333333</color>
+    <color name="colorLink">#0044cc</color>
+    <!-- STATUS COLORS -->
+    <color name="statusOpen">#04B431</color>
+    <color name="statusClosed">#B40404</color>
     <!-- Colors For Nav Bar -->
-    <color name="firstView">#1F1F1F</color>
+    <color name="firstView">#525252</color>
     <color name="secondView">#669900</color>
     <color name="thirdView">#FF5252</color>
     <color name="fourthView">#FF8800</color>

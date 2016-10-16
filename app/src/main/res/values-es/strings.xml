@@ -6,16 +6,16 @@
     <string name="title_activity_edit_profile">Editar Perfíl</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="reviews">reviews</string>
-    <string name="followers">followers</string>
-    <string name="following_lower_case">following</string>
-    <string name="follow">FOLLOW</string>
-    <string name="following">FOLLOWING</string>
-    <string name="open">Open</string>
-    <string name="closed">Closed</string>
-    <string name="phone">Phone</string>
-    <string name="webPage">Web page</string>
-    <string name="address">Address</string>
+    <string name="reviews">reseñas</string>
+    <string name="followers">seguidores</string>
+    <string name="following_lower_case">siguiendo</string>
+    <string name="follow">SEGUIR</string>
+    <string name="following">SIGUIENDO</string>
+    <string name="open">Abierto</string>
+    <string name="closed">Cerrado</string>
+    <string name="phone">Teléfono</string>
+    <string name="webPage">Página web</string>
+    <string name="address">Dirección</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
 </resources>

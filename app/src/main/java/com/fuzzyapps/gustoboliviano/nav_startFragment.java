@@ -23,28 +23,25 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
  * A placeholder fragment containing a simple view.
  */
 
-public class startFragment extends Fragment {
-    private static final String TAG = startFragment.class.getSimpleName();
+public class nav_startFragment extends Fragment {
+    private static final String TAG = nav_startFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
 
-    public startFragment() { }
-
+    public nav_startFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.start_fragment, container, false);
+        return inflater.inflate(R.layout.nav_start_fragment, container, false);
     }
-
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView01);
     }
-
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        BaseActivity activity = (BaseActivity) getActivity();
+        activityBase activity = (activityBase) getActivity();
         final SystemBarConfig config = activity.getSystemBarTint().getConfig();
 
         final int navigationHeight;
@@ -152,7 +149,7 @@ public class startFragment extends Fragment {
 
         @Override
         public TwoLinesViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-            final View view = LayoutInflater.from(getContext()).inflate(R.layout.simple_card_item, parent, false);
+            final View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_simple_card, parent, false);
             final TwoLinesViewHolder holder = new TwoLinesViewHolder(view);
             return holder;
         }

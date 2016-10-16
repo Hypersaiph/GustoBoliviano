@@ -13,7 +13,7 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 /**
  * Created by crugnola on 4/11/16.
  */
-public abstract class BaseActivity extends AppCompatActivity implements BottomNavigation.OnMenuItemSelectionListener {
+public abstract class activityBase extends AppCompatActivity implements BottomNavigation.OnMenuItemSelectionListener {
     private SystemBarTintManager mSystemBarTint;
     private boolean mTranslucentStatus;
     private boolean mTranslucentStatusSet;

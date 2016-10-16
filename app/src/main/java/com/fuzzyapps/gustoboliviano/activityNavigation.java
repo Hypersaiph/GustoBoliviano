@@ -10,22 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-public class MainNavigationActivity extends BaseActivity implements BottomNavigation.OnMenuItemSelectionListener {
+public class activityNavigation extends activityBase implements BottomNavigation.OnMenuItemSelectionListener{
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_navigation);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         final int statusbarHeight = getStatusBarHeight();
         final boolean translucentStatus = hasTranslucentStatusBar();
-
         final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.CoordinatorLayout01);
 
         if (translucentStatus) {
@@ -48,51 +46,58 @@ public class MainNavigationActivity extends BaseActivity implements BottomNaviga
     @Override
     public void onMenuItemSelect(@IdRes final int itemId, final int position) {
         changeToolbarColor(position);
-        Toast.makeText(MainNavigationActivity.this,""+position,Toast.LENGTH_SHORT).show();
+        Toast.makeText(activityNavigation.this,""+position,Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onMenuItemReselect(@IdRes final int itemId, final int position) {
-        Toast.makeText(MainNavigationActivity.this,"2. "+position,Toast.LENGTH_SHORT).show();
+        Toast.makeText(activityNavigation.this,"2. "+position,Toast.LENGTH_SHORT).show();
     }
     private void changeToolbarColor(int position) {
+        String colorPrimary = "#525252";
+        String colorPrimaryDark = "#333333";
         int primaryColor = 0;
         int darkColor = 0;
         FragmentManager fragmentManager = getFragmentManager();
 
         switch (position){
             case 0:
-                primaryColor = Color.parseColor("#1F1F1F");
-                darkColor = Color.parseColor("#000000");
+                primaryColor = Color.parseColor(colorPrimary);
+                darkColor = Color.parseColor(colorPrimaryDark);
+                getSupportActionBar().show();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new startFragment())
+                        .replace(R.id.frame_layout, new nav_startFragment())
                         .commit();
                 break;
             case 1:
-                primaryColor = Color.parseColor("#669900");
-                darkColor = Color.parseColor("#527a00");
+                primaryColor = Color.parseColor(colorPrimary);
+                darkColor = Color.parseColor(colorPrimaryDark);
+                getSupportActionBar().show();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new searchFragment())
+                        .replace(R.id.frame_layout, new nav_searchFragment())
                         .commit();
                 break;
             case 2:
-                primaryColor = Color.parseColor("#FF5252");
-                darkColor = Color.parseColor("#ff1515");
+                primaryColor = Color.parseColor(colorPrimary);
+                darkColor = Color.parseColor(colorPrimaryDark);
+                getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new mapFragment())
+                        .replace(R.id.frame_layout, new nav_mapFragment())
                         .commit();
                 break;
             case 3:
-                primaryColor = Color.parseColor("#FF8800");
-                darkColor = Color.parseColor("#e07800");
+                primaryColor = Color.parseColor(colorPrimary);
+                darkColor = Color.parseColor(colorPrimaryDark);
+                getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new notificationFragment())
+                        .replace(R.id.frame_layout, new fragment_restaurant())
                         .commit();
                 break;
             case 4:
-                primaryColor = Color.parseColor("#764ac6");
-                darkColor = Color.parseColor("#4d2b89");
+                primaryColor = Color.parseColor(colorPrimary);
+                darkColor = Color.parseColor(colorPrimaryDark);
+                getSupportActionBar().show();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new profileFragment())
+                        .replace(R.id.frame_layout, new nav_profileFragment())
                         .commit();
                 break;
         }
