@@ -16,6 +16,9 @@
     <string name="phone">Teléfono</string>
     <string name="webPage">Página web</string>
     <string name="address">Dirección</string>
+    <string name="search">Buscar</string>
+    <string name="money">$</string>
+    <string name="price">Costo</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
 </resources>

@@ -3,7 +3,6 @@ package com.fuzzyapps.gustoboliviano;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,8 +22,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -90,7 +87,7 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
     }
     private void displayAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view= layoutInflater.inflate(R.layout.item_review, null);
+        View view= layoutInflater.inflate(R.layout.item_review_input, null);
         builder.setView(view);
         final RatingBar reviewRatingBar = (RatingBar) view.findViewById(R.id.reviewRatingBar);
         final EditText reviewTitle = (EditText) view.findViewById(R.id.reviewTitle);
@@ -110,8 +107,8 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
     }
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
-        Review review = new Review(Globals.userID,Globals.restaurantID, title, description, roundRating, ServerValue.TIMESTAMP);
-        reviewRef.child(Globals.userID).setValue(review, new DatabaseReference.CompletionListener() {
+        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.restaurantID, title, description, roundRating, ServerValue.TIMESTAMP);
+        reviewRef.child(Globals.userID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Toast.makeText(getActivity(),"Registrado.",Toast.LENGTH_SHORT).show();

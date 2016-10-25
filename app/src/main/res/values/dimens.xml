@@ -8,4 +8,8 @@
     <dimen name="simple_card_image_width">90dp</dimen>
     <dimen name="simple_card_image_height">120dp</dimen>
     <dimen name="banner_height">177dp</dimen>
+    <dimen name="searchIconSize">46dp</dimen>
+    <dimen name="icon24dp">24dp</dimen>
+    <dimen name="icon18dp">18dp</dimen>
+    <dimen name="text50dp">50sp</dimen>
 </resources>

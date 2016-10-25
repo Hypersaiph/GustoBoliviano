@@ -12,6 +12,7 @@
     <!-- STATUS COLORS -->
     <color name="statusOpen">#04B431</color>
     <color name="statusClosed">#B40404</color>
+    <color name="money">#64dd17</color>
     <!-- Colors For Nav Bar -->
     <color name="firstView">#525252</color>
     <color name="secondView">#669900</color>

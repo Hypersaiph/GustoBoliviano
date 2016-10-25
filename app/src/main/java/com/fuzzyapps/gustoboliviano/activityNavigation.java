@@ -9,7 +9,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import com.google.android.gms.maps.MapView;
+
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
@@ -20,6 +22,20 @@ public class activityNavigation extends activityBase implements BottomNavigation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        // Fixing Later Map loading Delay
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MapView mv = new MapView(getApplicationContext());
+                    mv.onCreate(null);
+                    mv.onPause();
+                    mv.onDestroy();
+                }catch (Exception ignored){
+
+                }
+            }
+        }).start();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final int statusbarHeight = getStatusBarHeight();
@@ -46,11 +62,11 @@ public class activityNavigation extends activityBase implements BottomNavigation
     @Override
     public void onMenuItemSelect(@IdRes final int itemId, final int position) {
         changeToolbarColor(position);
-        Toast.makeText(activityNavigation.this,""+position,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activityNavigation.this,""+position,Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onMenuItemReselect(@IdRes final int itemId, final int position) {
-        Toast.makeText(activityNavigation.this,"2. "+position,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activityNavigation.this,"2. "+position,Toast.LENGTH_SHORT).show();
     }
     private void changeToolbarColor(int position) {
         String colorPrimary = "#525252";
@@ -63,7 +79,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
             case 0:
                 primaryColor = Color.parseColor(colorPrimary);
                 darkColor = Color.parseColor(colorPrimaryDark);
-                getSupportActionBar().show();
+                //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_startFragment())
                         .commit();
@@ -71,7 +87,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
             case 1:
                 primaryColor = Color.parseColor(colorPrimary);
                 darkColor = Color.parseColor(colorPrimaryDark);
-                getSupportActionBar().show();
+                //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_searchFragment())
                         .commit();
@@ -79,7 +95,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
             case 2:
                 primaryColor = Color.parseColor(colorPrimary);
                 darkColor = Color.parseColor(colorPrimaryDark);
-                getSupportActionBar().hide();
+                //getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_mapFragment())
                         .commit();
@@ -87,21 +103,21 @@ public class activityNavigation extends activityBase implements BottomNavigation
             case 3:
                 primaryColor = Color.parseColor(colorPrimary);
                 darkColor = Color.parseColor(colorPrimaryDark);
-                getSupportActionBar().hide();
+                //getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new fragment_restaurant())
+                        .replace(R.id.frame_layout, new nav_notificationFragment())
                         .commit();
                 break;
             case 4:
                 primaryColor = Color.parseColor(colorPrimary);
                 darkColor = Color.parseColor(colorPrimaryDark);
-                getSupportActionBar().show();
+                //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_profileFragment())
                         .commit();
                 break;
         }
-        toolbar.setBackgroundColor(primaryColor);
+        //toolbar.setBackgroundColor(primaryColor);
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setNavigationBarColor(primaryColor);
             getWindow().setStatusBarColor(darkColor);

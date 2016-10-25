@@ -36,6 +36,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import javax.microedition.khronos.opengles.GL;
+
 public class activityLogin extends AppCompatActivity {
     private Intent intent = null;
     private static final int RC_SIGN_IN = 3;
@@ -54,7 +56,6 @@ public class activityLogin extends AppCompatActivity {
     private AccessTokenTracker tracker;
     private ProfileTracker profileTracker;
     private String TAG = "@MyGvs";
-    private int c;
     private String userName="";
     private String userID="";
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
@@ -164,8 +165,7 @@ public class activityLogin extends AppCompatActivity {
     private void redirectNextActivity() {
         if (intent == null) {
             intent = new Intent(activityLogin.this, activityNavigation.class);
-            intent.putExtra("userName", userName);
-            intent.putExtra("userID", userID);
+            Globals.userID = userID;
             startActivity(intent);
             finish();
         }
@@ -268,7 +268,7 @@ public class activityLogin extends AppCompatActivity {
         });
     }
     private void message(String message) {
-        c++;//Toast.makeText(this,c+""+message,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,c+""+message,Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onStart() {

@@ -21,7 +21,7 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
     public nav_mapFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view != null) {
+        /*if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
@@ -31,7 +31,8 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
         } catch (InflateException e) {
             //Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-        return view;
+        return view;*/
+        return inflater.inflate(R.layout.nav_map_fragment, container, false);
     }
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
         //AQUI INICIALIZAR LOS OBJETOS
         MapFragment mapFragment = (MapFragment)  this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -47,5 +49,6 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 }
