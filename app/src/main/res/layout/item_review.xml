@@ -18,10 +18,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="7dp"
         android:orientation="horizontal">
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/reviewUserImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:civ_border_color="#000"
@@ -68,28 +68,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true" />
-                <com.like.LikeButton
-                    android:id="@+id/reviewLikeButton"
-                    android:layout_toStartOf="@+id/reviewMoreButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:icon_type="heart"
-                    android:layout_marginEnd="4dp"
-                    android:layout_centerVertical="true"
-                    app:icon_size="24dp" />
                 <TextView
                     android:id="@+id/reviewLikeNumber"
-                    android:layout_toStartOf="@+id/reviewMoreButton"
+                    android:layout_toStartOf="@+id/reviewLikeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true" />
+                <com.like.LikeButton
+                    android:id="@+id/reviewLikeButton"
+                    android:layout_toStartOf="@+id/reviewOptionsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon_type="heart"
+                    android:layout_centerVertical="true"
+                    app:icon_size="24dp" />
                 <ImageView
-                    android:id="@+id/reviewMoreButton"
+                    android:id="@+id/reviewOptionsButton"
                     android:layout_alignParentEnd="true"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
         </LinearLayout>

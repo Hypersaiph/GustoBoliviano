@@ -26,5 +26,51 @@ public class ReviewForm {
         this.rating = rating;
         this.timestamp = timestamp;
     }
+    public String getUserID() {
+        return userID;
+    }
 
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getRestaurantID() {
+        return restaurantID;
+    }
+
+    public void setRestaurantID(String restaurantID) {
+        this.restaurantID = restaurantID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public Map<String, String> getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Map<String, String> timestamp) {
+        this.timestamp = timestamp;
+    }
 }

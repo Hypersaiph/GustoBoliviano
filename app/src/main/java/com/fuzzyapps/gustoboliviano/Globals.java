@@ -8,4 +8,5 @@ public class Globals {
     static String userID;
     static String restaurantID;
     static String visitedID;
+    static String productID = "qTFGiMIrAuQ4smPL3MkBMLQvd7y2";
 }

@@ -19,6 +19,7 @@ public class Restaurant {
     private String closeTime;       //final time when restaurants handles clients
     private String phone;           //restaurant´s phone number
     private String webPage;         //restaurant´s web page
+    private String address;         //restaurant´s address
     private double rating;          //restaurant´s rating
     private int following;          //number of people that´s being followed by the restaurant
     private int followers;          //restaurant´s number of followers

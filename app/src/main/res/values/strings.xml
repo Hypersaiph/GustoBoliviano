@@ -21,4 +21,7 @@
     <string name="price">Price</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
+    <!-- OPTIONS -->
+    <string name="spam">Spam or Fraud</string>
+    <string name="ofensive">Offensive Content</string>
 </resources>
