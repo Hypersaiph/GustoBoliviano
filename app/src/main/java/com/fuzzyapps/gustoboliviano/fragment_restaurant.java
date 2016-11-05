@@ -1,12 +1,14 @@
 package com.fuzzyapps.gustoboliviano;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
 public class fragment_restaurant extends Fragment implements OnMapReadyCallback {
+    private TabLayout restaurantOptions;
     private LayoutInflater layoutInflater;
     private GoogleMap mMap;
     private Toolbar toolbar;
@@ -43,6 +46,7 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //AQUI INICIALIZAR LOS OBJETOS
+        restaurantOptions = (TabLayout) view.findViewById(R.id.restaurantOptions);
         layoutInflater = getActivity().getLayoutInflater();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         reviewRef = database.getReference("review");
@@ -76,7 +80,67 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
                 displayAlertDialog();
             }
         });
+        restaurantOptions.addTab(restaurantOptions.newTab().setIcon(R.mipmap.ic_add_black_18dp), true);
+        restaurantOptions.addTab(restaurantOptions.newTab().setIcon(R.mipmap.ic_add_black_18dp));
+        restaurantOptions.addTab(restaurantOptions.newTab().setIcon(R.mipmap.ic_add_black_18dp));
+        restaurantOptions.addTab(restaurantOptions.newTab().setIcon(R.mipmap.ic_add_black_18dp));
+        restaurantOptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                setRestaurantTab(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        //SETTING FIRST FRAGMENT
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.restaurantFrame, new restaurant_nav_review())
+                .commit();
     }
+
+    private void setRestaurantTab(int position) {
+        FragmentManager fragmentManager = getFragmentManager();
+        switch (position){
+            case 0:
+                //RESEÑAS
+                fragmentManager.beginTransaction()
+                        .replace(R.id.restaurantFrame, new restaurant_nav_review())
+                        .commit();
+                break;
+            case 1:
+                //PRODUCTOS
+                fragmentManager.beginTransaction()
+                        .replace(R.id.restaurantFrame, new restaurant_nav_product())
+                        .commit();
+                break;
+            case 2:
+                //SUCURSALES
+                fragmentManager.beginTransaction()
+                        .replace(R.id.restaurantFrame, new restaurant_nav_branch())
+                        .commit();
+                break;
+            case 3:
+                //PROMOCIONES
+                fragmentManager.beginTransaction()
+                        .replace(R.id.restaurantFrame, new restaurant_nav_promotion())
+                        .commit();
+                break;
+            case 4:
+                //RESERVAS
+                //A FUTURO SE PROGRAMARA
+                break;
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

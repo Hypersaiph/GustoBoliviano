@@ -1,11 +1,9 @@
 package com.fuzzyapps.gustoboliviano;
 
-import android.app.Fragment;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,89 +12,63 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
-public class fragment_product extends Fragment{
-    private String TAG = "fragment_product";
-    private RecyclerView recyclerView;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class restaurant_nav_review extends Fragment {
+
+    private RecyclerView recyclerViewReviews;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private LayoutInflater layoutInflater;
-
+    //FIREBASE VARIABLES
     private FirebaseDatabase database;
     private DatabaseReference reviewRef;
-    ArrayList<ReviewForm> reviewArrayList = new ArrayList<>();
-    public fragment_product(){}
+
+    //UI VARIABLES
+    private LayoutInflater layoutInflater;
+    ArrayList<ReviewForm> reviewArrayList = new ArrayList<ReviewForm>();
+    public restaurant_nav_review() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_product, container, false);
+        return inflater.inflate(R.layout.restaurant_nav_review_fragment, container, false);
     }
+
     @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //AQUI INICIALIZAR LOS OBJETOS
+        //AQUI INICIALIZAMOS TODOS LOS OBJETOS
         layoutInflater = getActivity().getLayoutInflater();
         database = FirebaseDatabase.getInstance();
-        reviewRef = database.getReference("reviewProduct");
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        reviewRef = database.getReference("review");
+        recyclerViewReviews = (RecyclerView) view.findViewById(R.id.recyclerViewReviews);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerViewReviews.setHasFixedSize(true);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerViewReviews.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
         mAdapter = new reviewAdapter(reviewArrayList, getActivity());
-        recyclerView.setAdapter(mAdapter);
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.productRateButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayAlertDialog();
-            }
-        });
-        listAllReviewsFor(Globals.productID);
-    }
-    public void updateRecyclerView(){
-        mAdapter.notifyDataSetChanged();
-    }
-    private void displayAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view= layoutInflater.inflate(R.layout.item_review_input, null);
-        builder.setView(view);
-        final RatingBar reviewRatingBar = (RatingBar) view.findViewById(R.id.reviewRatingBar);
-        final EditText reviewTitle = (EditText) view.findViewById(R.id.reviewTitle);
-        final EditText reviewDescription = (EditText) view.findViewById(R.id.reviewDescription);
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                writeUserReview(reviewRatingBar.getRating(), reviewTitle.getText().toString(), reviewDescription.getText().toString());
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-                dialog.cancel();
-            }
-        });
-        builder.show();
+        recyclerViewReviews.setAdapter(mAdapter);
+        listAllReviewsFor(Globals.restaurantID);
     }
     private void displayAlertDialogOptions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -104,15 +76,8 @@ public class fragment_product extends Fragment{
         builder.setView(view);
         builder.show();
     }
-    private void writeUserReview(float rating, String title, String description) {
-        double roundRating = (double) Math.round(rating * 100) / 100;
-        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.productID, title, description, roundRating, ServerValue.TIMESTAMP);
-        reviewRef.child(Globals.userID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Toast.makeText(getActivity(),"Registrado.",Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void updateRecyclerView(){
+        mAdapter.notifyDataSetChanged();
     }
     public class reviewAdapter extends RecyclerView.Adapter<reviewAdapter.ViewHolder> {
         private ArrayList<ReviewForm> reviewArrayList = new ArrayList<>();
@@ -211,7 +176,7 @@ public class fragment_product extends Fragment{
         reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //READ FINALIZED
-                Log.e(TAG, "We're done loading the initial: "+dataSnapshot.getChildrenCount()+" items");
+                Log.e("rest", "We're done loading the initial: "+dataSnapshot.getChildrenCount()+" items");
                 updateRecyclerView();
             }
             public void onCancelled(DatabaseError firebaseError) { }
@@ -219,7 +184,7 @@ public class fragment_product extends Fragment{
         reviewRef.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
                 //System.out.println("Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
-                Log.e(TAG, "Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
+                Log.e("rest", "Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
                 ReviewForm review = new ReviewForm();//dataSnapshot.getValue(ReviewForm.class);
                 review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));

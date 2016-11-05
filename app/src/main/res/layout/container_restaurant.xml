@@ -264,7 +264,24 @@
             map:uiTiltGestures="false"
             android:name="com.google.android.gms.maps.MapFragment"/>
         <!-- TABS: 1.Food, 2. Map, 3.Promotions, 4. Branches -->
-        <android.support.design.widget.TabLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/restaurantOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed"/>
+            <FrameLayout
+                android:id="@+id/restaurantFrame"
+                android:layout_width="match_parent"
+                android:layout_height="500dp" />
+        </LinearLayout>
+        <!--<android.support.design.widget.TabLayout
             android:id="@+id/profileTabs"
             style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
@@ -286,5 +303,12 @@
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_photo_library_black_24dp"/>
         </android.support.design.widget.TabLayout>
+        <FrameLayout
+            android:id="@+id/restaurantFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b12365">
+
+        </FrameLayout>-->
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
