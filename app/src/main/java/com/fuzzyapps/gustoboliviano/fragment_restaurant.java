@@ -156,12 +156,12 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
         final RatingBar reviewRatingBar = (RatingBar) view.findViewById(R.id.reviewRatingBar);
         final EditText reviewTitle = (EditText) view.findViewById(R.id.reviewTitle);
         final EditText reviewDescription = (EditText) view.findViewById(R.id.reviewDescription);
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 writeUserReview(reviewRatingBar.getRating(), reviewTitle.getText().toString(), reviewDescription.getText().toString());
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
                 dialog.cancel();
@@ -175,7 +175,7 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
         reviewRef.child(Globals.userID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Toast.makeText(getActivity(),"Registrado.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();
             }
         });
     }

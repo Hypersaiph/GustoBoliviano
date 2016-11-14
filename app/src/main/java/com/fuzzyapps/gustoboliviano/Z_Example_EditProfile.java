@@ -50,7 +50,7 @@ public class Z_Example_EditProfile extends AppCompatActivity {
         });*/
     }
     private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
-        myRef.child(userId).setValue(user);
+        /*User user = new User(name, email);
+        myRef.child(userId).setValue(user);*/
     }
 }

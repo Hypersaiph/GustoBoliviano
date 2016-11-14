@@ -4,7 +4,7 @@ package com.fuzzyapps.gustoboliviano;
  * Created by Geovani on 18/10/2016.
  */
 
-public class Restaurant {
+public class    Restaurant {
     private String id;              //User ID
     private String banner_url;      //url to banner image
     private String date;            //registration date

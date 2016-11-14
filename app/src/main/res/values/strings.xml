@@ -19,6 +19,27 @@
     <string name="search">Search</string>
     <string name="money">$</string>
     <string name="price">Price</string>
+    <string name="selectImageFrom">Select Image From:</string>
+    <string name="editProfile">Edit Your Profile</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="Success">Success!</string>
+    <string name="privateMessage">Private Information</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="email">Email</string>
+    <string name="gender">Gender</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
+    <string name="profileInformation">Profile Information</string>
+    <string-array
+        name="genre_array">
+        <item>Not Specified</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="zero">0</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->
