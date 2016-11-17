@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.Query;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -43,7 +46,7 @@ public class restaurant_nav_review extends Fragment {
 
     //UI VARIABLES
     private LayoutInflater layoutInflater;
-    ArrayList<ReviewForm> reviewArrayList = new ArrayList<ReviewForm>();
+    ArrayList<ReviewForm> reviewArrayList = new ArrayList<>();
     public restaurant_nav_review() {}
 
     @Override
@@ -57,7 +60,7 @@ public class restaurant_nav_review extends Fragment {
         //AQUI INICIALIZAMOS TODOS LOS OBJETOS
         layoutInflater = getActivity().getLayoutInflater();
         database = FirebaseDatabase.getInstance();
-        reviewRef = database.getReference("review");
+        reviewRef = database.getReference("reviewEstablishment");
         recyclerViewReviews = (RecyclerView) view.findViewById(R.id.recyclerViewReviews);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -172,31 +175,41 @@ public class restaurant_nav_review extends Fragment {
         }
     }
     // FIREBASE FUNCTIONS
-    private void listAllReviewsFor(String productID) {
-        reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void listAllReviewsFor(String restauranID) {
+        /*reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //READ FINALIZED
                 Log.e("rest", "We're done loading the initial: "+dataSnapshot.getChildrenCount()+" items");
                 updateRecyclerView();
             }
             public void onCancelled(DatabaseError firebaseError) { }
-        });
-        reviewRef.addChildEventListener(new ChildEventListener() {
+        });*/
+        Query mainBranchQuery = reviewRef.child(restauranID).orderByChild("timestamp");
+        mainBranchQuery.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
-                //System.out.println("Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
-                Log.e("rest", "Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
-                ReviewForm review = new ReviewForm();//dataSnapshot.getValue(ReviewForm.class);
+                ReviewForm review = new ReviewForm();
                 review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));
                 review.setTitle(dataSnapshot.child("title").getValue(String.class));
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
-                //restaurant.setId(dataSnapshot.getKey());
-                //String name = dataSnapshot.child("name").getValue(String.class);
-                //Toast.makeText(getActivity(), ""+name,Toast.LENGTH_SHORT).show();
+                review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
                 reviewArrayList.add(review);
+                updateRecyclerView();
+                Log.e("retrieve",""+dataSnapshot.getKey());
             }
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                ReviewForm review = new ReviewForm();
+                review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
+                review.setUserID(dataSnapshot.child("userID").getValue(String.class));
+                review.setTitle(dataSnapshot.child("title").getValue(String.class));
+                review.setDescription(dataSnapshot.child("description").getValue(String.class));
+                review.setRating(dataSnapshot.child("rating").getValue(Double.class));
+                review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
+                int search = Search(review.getUserID());
+                reviewArrayList.set(search, review);
+                updateRecyclerView();
+                Log.e("updated",""+dataSnapshot.getKey());
             }
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
@@ -204,5 +217,16 @@ public class restaurant_nav_review extends Fragment {
             }
             public void onCancelled(DatabaseError firebaseError) { }
         });
+    }
+    public int Search(String userID) {
+        int position = 0;
+        for(int i=0 ; i< reviewArrayList.size(); i++){
+            if(reviewArrayList.get(i).getUserID().equals(userID)){
+                position = i;
+                break;
+            }
+        }
+        Log.e("Search",""+position);
+        return position;
     }
 }

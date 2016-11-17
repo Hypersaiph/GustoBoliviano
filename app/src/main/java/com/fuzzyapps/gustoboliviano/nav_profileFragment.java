@@ -309,6 +309,7 @@ public class nav_profileFragment extends Fragment {
                 statusLinearLayout.setVisibility(View.VISIBLE);
                 try {
                     statusEdit.setText(user.getStatus());
+                    statusEdit.setSelection(statusEdit.getText().length());
                 }catch (Exception e){}
             }
             public void onCancelled(DatabaseError firebaseError) { }
@@ -325,6 +326,7 @@ public class nav_profileFragment extends Fragment {
                 }catch (Exception e){}
                 try {
                     editProfileStatus.setText(user.getStatus());
+                    editProfileStatus.setSelection(editProfileStatus.getText().length());
                 }catch (Exception e){}
                 try {
                     editProfileEmail.setText(user.getEmail());

@@ -4,35 +4,39 @@ package com.fuzzyapps.gustoboliviano;
  * Created by Geovani on 18/10/2016.
  */
 
-public class    Restaurant {
-    private String id;              //User ID
-    private String banner_url;      //url to banner image
-    private String date;            //registration date
-    private String description;     //restaurant´s description
-    private String email;           //restaurant´s email
-    private String image_url;       //url to icon image
-    private String name;            //restaurant´s name
-    private String type;            //type of restaurant
-    private String openFromDay;     //first day of opening
-    private String openToDay;       //last day of opening
-    private String openTime;        //starting open time
-    private String closeTime;       //final time when restaurants handles clients
-    private String phone;           //restaurant´s phone number
-    private String webPage;         //restaurant´s web page
-    private String address;         //restaurant´s address
-    private double rating;          //restaurant´s rating
-    private int following;          //number of people that´s being followed by the restaurant
-    private int followers;          //restaurant´s number of followers
-    private boolean open;           //restaurant´s status open or close
-    private boolean validated;       //validation mark
+public class Establishment {
+    public String id;              //User ID
+    public String banner_url;      //url to banner image
+    public String date;            //registration date
+    public String description;     //restaurant´s description
+    public String email;           //restaurant´s email
+    public String image_url;       //url to icon image
+    public String name;            //restaurant´s name
+    public String type;            //type of restaurant
+    public String openFromDay;     //first day of opening
+    public String openToDay;       //last day of opening
+    public String openTime;        //starting open time
+    public String closeTime;       //final time when restaurants handles clients
+    public String phone;           //restaurant´s phone number
+    public String webPage;         //restaurant´s web page
+    public String address;         //restaurant´s address
+    public double rating;          //restaurant´s rating
+    public int following;          //number of people that´s being followed by the restaurant
+    public int followers;          //restaurant´s number of followers
+    public boolean open;           //restaurant´s status open or close
+    public boolean validated;       //validation mark
 
-    /*public Restaurant(String id, String url_banner, String date, String description, String email, String url_image, String name, String type, String openFromDay, String openToDay, String openTime, String closeTime, String phone, String address, String webPage, double rating, double latitude, double longitude, int following, int followers, boolean open, boolean validated) {
+    public Establishment() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    public Establishment(String id, String banner_url, String date, String description, String email, String image_url, String name, String type, String openFromDay, String openToDay, String openTime, String closeTime, String phone, String webPage, String address, double rating, int following, int followers, boolean open, boolean validated) {
         this.id = id;
-        this.url_banner = url_banner;
+        this.banner_url = banner_url;
         this.date = date;
         this.description = description;
         this.email = email;
-        this.url_image = url_image;
+        this.image_url = image_url;
         this.name = name;
         this.type = type;
         this.openFromDay = openFromDay;
@@ -40,11 +44,9 @@ public class    Restaurant {
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.phone = phone;
-        this.address = address;
         this.webPage = webPage;
+        this.address = address;
         this.rating = rating;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.following = following;
         this.followers = followers;
         this.open = open;
@@ -59,12 +61,12 @@ public class    Restaurant {
         this.id = id;
     }
 
-    public String getUrl_banner() {
-        return url_banner;
+    public String getBanner_url() {
+        return banner_url;
     }
 
-    public void setUrl_banner(String url_banner) {
-        this.url_banner = url_banner;
+    public void setBanner_url(String banner_url) {
+        this.banner_url = banner_url;
     }
 
     public String getDate() {
@@ -91,12 +93,12 @@ public class    Restaurant {
         this.email = email;
     }
 
-    public String getUrl_image() {
-        return url_image;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setUrl_image(String url_image) {
-        this.url_image = url_image;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public String getName() {
@@ -155,14 +157,6 @@ public class    Restaurant {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getWebPage() {
         return webPage;
     }
@@ -171,28 +165,20 @@ public class    Restaurant {
         this.webPage = webPage;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public double getRating() {
         return rating;
     }
 
     public void setRating(double rating) {
         this.rating = rating;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public int getFollowing() {
@@ -225,5 +211,5 @@ public class    Restaurant {
 
     public void setValidated(boolean validated) {
         this.validated = validated;
-    }*/
+    }
 }

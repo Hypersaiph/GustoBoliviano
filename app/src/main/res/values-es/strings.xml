@@ -40,6 +40,13 @@
         <item>Mujer</item>
     </string-array>
     <string name="zero">0</string>
+    <string name="sunday">Dom.</string>
+    <string name="monday">Lun.</string>
+    <string name="tuesday">Mar.</string>
+    <string name="wednesday">Mié.</string>
+    <string name="thursday">Jue.</string>
+    <string name="friday">Vie.</string>
+    <string name="saturday">Sáb.</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

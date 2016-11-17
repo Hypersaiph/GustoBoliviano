@@ -193,7 +193,7 @@ public class nav_searchFragment extends Fragment{
     }
     // FIREBASE FUNCTIONS
     private void listAllRestaurants() {
-        DatabaseReference restaurantsRef = database.getReference("restaurants");
+        DatabaseReference restaurantsRef = database.getReference("establishment");
         restaurantsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //READ FINALIZED
