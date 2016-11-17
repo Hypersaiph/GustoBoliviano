@@ -58,7 +58,7 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
     private LayoutInflater layoutInflater;
     private GoogleMap mMap;
     //FIREBASE VARIABLES
-    private DatabaseReference reviewRef;
+    private DatabaseReference reviewEstablishmentRef, reviewUserRef;
     private DatabaseReference mDatabase;
     private FirebaseDatabase database;
 
@@ -113,7 +113,8 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
         layoutInflater = getActivity().getLayoutInflater();
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference();
-        reviewRef = database.getReference("reviewEstablishment");
+        reviewEstablishmentRef = database.getReference("reviewEstablishment");
+        reviewUserRef = database.getReference("reviewUser");
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle("");
         AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
@@ -235,12 +236,12 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
                         branchAddress.setText(establishment.getAddress());
                     }
                 }catch (Exception e) {}
-                try {
+                /*try {
                     restaurantRatingBar.setRating((float) establishment.getRating());
-                }catch (Exception e) {}
-                try {
+                }catch (Exception e) {}*/
+                /*try {
                     restaurantRating.setText(establishment.getRating()+"");
-                }catch (Exception e) {}
+                }catch (Exception e) {}*/
                 try {
                     //QUERY TO KNOW HOW MANY HAVE RATED
                 }catch (Exception e) {}
@@ -264,7 +265,6 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
                 }catch (Exception e) {
                     restaurantValidated.setVisibility(View.GONE);
                 }
-                restaurantRatingNumber.setText("(0)");
                 /*;
                 restaurantRatingNumber;
                 followersCount;
@@ -299,8 +299,38 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
                 itemLayout.setVisibility(View.GONE);
             }
         });
+        setQueries();
     }
+    private void setQueries() {
+        Query reviewsQuery = mDatabase.child("reviewEstablishment").child(Globals.restaurantID).orderByChild("timestamp");
+        reviewsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("setQueries key",""+dataSnapshot.getKey());
+                Log.e("retrieve",""+dataSnapshot.getValue());
+                restaurantRatingNumber.setText("("+dataSnapshot.getChildrenCount()+")");
+                double rating = 0;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    ReviewForm review = new ReviewForm();
+                    review.setId(child.getKey());
+                    review.setRestaurantID(child.child("restaurantID").getValue(String.class));
+                    review.setUserID(child.child("userID").getValue(String.class));
+                    review.setTitle(child.child("title").getValue(String.class));
+                    review.setDescription(child.child("description").getValue(String.class));
+                    review.setRating(child.child("rating").getValue(Double.class));
+                    review.setPostedOn(child.child("timestamp").getValue(long.class));
+                    rating += review.getRating();
+                }
+                restaurantRatingBar.setRating((float) (rating/dataSnapshot.getChildrenCount()));
+                restaurantRating.setText(String.format("%.1f", (float) (rating/dataSnapshot.getChildrenCount())));
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void setBranchPosition(String latitude, String longitude) {
         try {
             LatLng position = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
@@ -389,7 +419,8 @@ public class fragment_restaurant extends Fragment implements OnMapReadyCallback 
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
         ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.restaurantID, title, description, roundRating, ServerValue.TIMESTAMP );
-        reviewRef.child(Globals.restaurantID).child(Globals.userID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
+        reviewEstablishmentRef.child(Globals.restaurantID).child(Globals.userID).setValue(reviewForm);
+        reviewUserRef.child(Globals.userID).child(Globals.restaurantID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();

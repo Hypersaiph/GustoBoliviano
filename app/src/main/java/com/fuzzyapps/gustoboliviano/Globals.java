@@ -8,5 +8,6 @@ public class Globals {
     static String userID;
     static String restaurantID;
     static String visitedID;
-    static String productID = "qTFGiMIrAuQ4smPL3MkBMLQvd7y2";
+    static String productID = "";
+    static String staticMapsApiKey = "AIzaSyBgECeE5TOaXa9vI2dGL_paEynWk4J-AU0";
 }

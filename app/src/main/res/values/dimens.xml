@@ -14,5 +14,8 @@
     <dimen name="icon24dp">24dp</dimen>
     <dimen name="icon18dp">18dp</dimen>
     <dimen name="text50dp">50sp</dimen>
+    <dimen name="mapheight">250dp</dimen>
+    <dimen name="mapwidth">450dp</dimen>
+
 </resources>
 

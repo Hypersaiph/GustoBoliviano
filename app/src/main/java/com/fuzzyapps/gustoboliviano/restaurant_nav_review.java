@@ -69,7 +69,7 @@ public class restaurant_nav_review extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerViewReviews.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new reviewAdapter(reviewArrayList, getActivity());
+        mAdapter = new reviewAdapter(reviewArrayList, getActivity(), database);
         recyclerViewReviews.setAdapter(mAdapter);
         listAllReviewsFor(Globals.restaurantID);
     }
@@ -82,9 +82,11 @@ public class restaurant_nav_review extends Fragment {
     public void updateRecyclerView(){
         mAdapter.notifyDataSetChanged();
     }
+
     public class reviewAdapter extends RecyclerView.Adapter<reviewAdapter.ViewHolder> {
         private ArrayList<ReviewForm> reviewArrayList = new ArrayList<>();
         private final Picasso picasso;
+        private FirebaseDatabase database;
         private Context context;
         // Provide a reference to the views for each data item
         // Complex data items may need more than one view per item, and
@@ -99,7 +101,7 @@ public class restaurant_nav_review extends Fragment {
             TextView reviewTitle;
             TextView reviewDescription;
             TextView reviewDate;
-            TextView reviewLikeNumber;
+            TextView reviewLikeNumber, reviewRatingBarText;
             ViewHolder(View view) {
                 super(view);
                 circularImageView = (CircularImageView) view.findViewById(R.id.reviewUserImage);
@@ -111,13 +113,15 @@ public class restaurant_nav_review extends Fragment {
                 reviewDescription = (TextView) view.findViewById(R.id.reviewDescription);
                 reviewDate = (TextView) view.findViewById(R.id.reviewDate);
                 reviewLikeNumber = (TextView) view.findViewById(R.id.reviewLikeNumber);
+                reviewRatingBarText = (TextView) view.findViewById(R.id.reviewRatingBarText);
             }
         }
         // Provide a suitable constructor (depends on the kind of dataset)
-        public reviewAdapter(ArrayList<ReviewForm> reviewArrayList, Context context) {
+        public reviewAdapter(ArrayList<ReviewForm> reviewArrayList, Context context, FirebaseDatabase database) {
             this.reviewArrayList = reviewArrayList;
             this.picasso = Picasso.with(context);
             this.context = context;
+            this.database = database;
         }
 
         // Create new views (invoked by the layout manager)
@@ -132,28 +136,26 @@ public class restaurant_nav_review extends Fragment {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.circularImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.asd ));
+            //holder.circularImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.asd ));
+            //holder.reviewDate.setText(/*reviewArrayList.get(position).getTimestamp().toString()*/"3h");
             holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
-            holder.reviewUserName.setText(reviewArrayList.get(position).getUserID());
+            //holder.reviewUserName.setText(reviewArrayList.get(position).getUserID());
             holder.reviewTitle.setText(reviewArrayList.get(position).getTitle());
             holder.reviewDescription.setText(reviewArrayList.get(position).getDescription());
-            holder.reviewDate.setText(/*reviewArrayList.get(position).getTimestamp().toString()*/"3h");
+            holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
+            holder.reviewRatingBarText.setText(holder.reviewRatingBar.getRating()+"");
             holder.reviewLikeNumber.setText("0");
             holder.reviewLikeButton.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    Toast.makeText(getActivity(), "you like it!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "you like it!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    Toast.makeText(getActivity(), "you dont like it! duh e.e", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "you dont like it! duh e.e", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
             holder.reviewOptionsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -167,11 +169,33 @@ public class restaurant_nav_review extends Fragment {
                     .resizeDimen(R.dimen.icon36dp, R.dimen.icon36dp)
                     .centerCrop()
                     .into(holder.reviewOptionsButton);
+            getAllDataFromUser(reviewArrayList.get(position).getUserID(), holder);
         }
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
             return reviewArrayList.size();
+        }
+        public void getAllDataFromUser(String userID, final ViewHolder holder) {
+            DatabaseReference mDatabase = database.getReference();
+            mDatabase.child("users").child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    try{
+                        holder.reviewUserName.setText(user.getName());
+                    }catch (Exception e){}
+                    try{
+                        picasso.load(user.getImage_url()).into(holder.circularImageView);
+                    }catch (Exception e){
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
     // FIREBASE FUNCTIONS

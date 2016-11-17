@@ -105,7 +105,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 darkColor = Color.parseColor(colorPrimaryDark);
                 //getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, new fragment_product())
+                        .replace(R.id.frame_layout, new nav_notificationFragment())
                         .commit();
                 //.replace(R.id.frame_layout, new nav_notificationFragment())
                 break;

@@ -39,12 +39,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"/>
-            <RatingBar
-                android:id="@+id/reviewRatingBar"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_gravity="start"/>
+                android:orientation="horizontal">
+                <RatingBar
+                    android:id="@+id/reviewRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_gravity="start"/>
+                <TextView
+                    android:id="@+id/reviewRatingBarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/reviewTitle"
                 android:layout_width="wrap_content"

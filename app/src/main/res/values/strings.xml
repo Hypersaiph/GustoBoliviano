@@ -47,6 +47,12 @@
     <string name="thursday">Thu.</string>
     <string name="friday">Fri.</string>
     <string name="saturday">Sat.</string>
+    <string name="menu1">Home</string>
+    <string name="menu2">Search</string>
+    <string name="menu3">Map</string>
+    <string name="menu4">Notifications</string>
+    <string name="menu5">Profile</string>
+    <string name="more">More</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

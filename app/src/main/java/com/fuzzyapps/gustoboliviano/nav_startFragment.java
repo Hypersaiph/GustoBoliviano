@@ -185,7 +185,7 @@ public class nav_startFragment extends Fragment {
 
     private Book[] createData() {
         return new Book[]{
-            new Book("The Flight", "Scott Masterson", "http://i.imgur.com/dyyP2iO.jpg"),
+            /*new Book("The Flight", "Scott Masterson", "http://i.imgur.com/dyyP2iO.jpg"),
             new Book("Room of Plates", "Ali Conners", "http://i.imgur.com/da6QIlR.jpg"),
             new Book("The Sleek Boot", "Sandra Adams", "http://i.imgur.com/YHoOJh4.jpg"),
             new Book("Night Hunting", "Janet Perkins", "http://i.imgur.com/3jxqrKP.jpg"),
@@ -196,7 +196,7 @@ public class nav_startFragment extends Fragment {
             new Book("Mountaineers", "Abbey Christensen", "http://i.imgur.com/CLLDz.jpg"),
             new Book("Plains In The Night", "David Park", "http://i.imgur.com/7MrSvXE.jpg?1"),
             new Book("Dear Olivia", "Sylvia Sorensen", "http://i.imgur.com/3mkUuux.jpg"),
-            new Book("Driving Lessons", "Halime Carver", "http://i.imgur.com/LzYAfFL.jpg"),
+            new Book("Driving Lessons", "Halime Carver", "http://i.imgur.com/LzYAfFL.jpg"),*/
         };
     }
 

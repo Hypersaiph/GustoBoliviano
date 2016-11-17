@@ -52,7 +52,7 @@ public class nav_searchFragment extends Fragment{
     private SearchView searchView;
     private MenuItem searchMenuItem;
     //private ListView restaurantList;
-    ArrayList<Restaurant2> RestaurantArrayList = new ArrayList<>();
+    ArrayList<Establishment> RestaurantArrayList = new ArrayList<>();
     SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
@@ -123,7 +123,7 @@ public class nav_searchFragment extends Fragment{
                 .commit();
     }
     public class adapterSearchItem extends RecyclerView.Adapter<adapterSearchItem.ViewHolder> {
-        private ArrayList<Restaurant2> RestaurantArrayList = new ArrayList<>();
+        private ArrayList<Establishment> RestaurantArrayList = new ArrayList<>();
         private final Picasso picasso;
         private Context context;
         // Provide a reference to the views for each data item
@@ -146,7 +146,7 @@ public class nav_searchFragment extends Fragment{
             }
         }
         // Provide a suitable constructor (depends on the kind of dataset)
-        public adapterSearchItem(ArrayList<Restaurant2> RestaurantArrayList, Context context) {
+        public adapterSearchItem(ArrayList<Establishment> RestaurantArrayList, Context context) {
             this.RestaurantArrayList = RestaurantArrayList;
             this.picasso = Picasso.with(context);
             this.context = context;
@@ -167,7 +167,7 @@ public class nav_searchFragment extends Fragment{
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             holder.restaurantName.setText(RestaurantArrayList.get(position).getName());
-            holder.restaurantAddress.setText(RestaurantArrayList.get(position).getDirection());
+            holder.restaurantAddress.setText(RestaurantArrayList.get(position).getAddress());
             holder.restairantId.setText(RestaurantArrayList.get(position).getId());
             holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,7 +179,7 @@ public class nav_searchFragment extends Fragment{
             });
             //Picasso Image holder
             picasso.cancelRequest(holder.restaurantIcon);
-            picasso.load(RestaurantArrayList.get(position).getImagen_url())
+            picasso.load(RestaurantArrayList.get(position).getImage_url())
                     .noPlaceholder()
                     .resizeDimen(R.dimen.searchIconSize, R.dimen.searchIconSize)
                     .centerCrop()
@@ -206,7 +206,7 @@ public class nav_searchFragment extends Fragment{
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
                 //System.out.println("Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
                 Log.e("START", "Add "+dataSnapshot.getKey()+" to UI after "+previousKey);
-                Restaurant2 restaurant = dataSnapshot.getValue(Restaurant2.class);
+                Establishment restaurant = dataSnapshot.getValue(Establishment.class);
                 restaurant.setId(dataSnapshot.getKey());
                 //String name = dataSnapshot.child("name").getValue(String.class);
                 //Toast.makeText(getActivity(), ""+name,Toast.LENGTH_SHORT).show();

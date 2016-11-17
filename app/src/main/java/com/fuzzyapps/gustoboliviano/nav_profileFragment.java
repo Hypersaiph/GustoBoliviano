@@ -35,6 +35,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
@@ -144,7 +145,7 @@ public class nav_profileFragment extends Fragment {
         //RESEÑAS
         profileOptions.addTab(profileOptions.newTab().setIcon(R.mipmap.ic_rate_review_black_24dp), true);
         //FAVORITOS
-        profileOptions.addTab(profileOptions.newTab().setIcon(R.mipmap.ic_favorite_black_24dp));
+        profileOptions.addTab(profileOptions.newTab().setIcon(R.mipmap.ic_bookmark_black_24dp));
         //CONFIGURAR
         profileOptions.addTab(profileOptions.newTab().setIcon(R.mipmap.ic_settings_black_24dp));
         profileOptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -180,11 +181,11 @@ public class nav_profileFragment extends Fragment {
                 try{
                     profileUserName.setText(user.getName());
                 }catch (Exception e){}
-                try{
+                /*try{
                     profileReviewsNumber.setText(user.getReviewsNumber()+"");
                 }catch (Exception e){
                     profileReviewsNumber.setText(R.string.zero);
-                }
+                }*/
                 try{
                     profileFollowersNumber.setText(user.getFollowersNumber()+"");
                 }catch (Exception e){
@@ -218,6 +219,24 @@ public class nav_profileFragment extends Fragment {
             }
         };
         mDatabase.child("users").child(Globals.userID).addValueEventListener(postListener);
+        setQueries();
+    }
+
+    private void setQueries() {
+        Query reviewsQuery = mDatabase.child("reviewUser").child(Globals.userID).orderByChild("timestamp");
+        reviewsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("setQueries key",""+dataSnapshot.getKey());
+                Log.e("retrieve",""+dataSnapshot.getValue());
+                profileReviewsNumber.setText(dataSnapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void statusDialog() {

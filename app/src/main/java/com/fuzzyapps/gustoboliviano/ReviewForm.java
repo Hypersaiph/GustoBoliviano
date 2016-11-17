@@ -15,6 +15,7 @@ public class ReviewForm {
     public double rating;
     public Map<String, String> timestamp;
     public long postedOn;
+    public String id;
     public ReviewForm(){
 
     }
@@ -26,6 +27,14 @@ public class ReviewForm {
         this.description = description;
         this.rating = rating;
         this.timestamp = timestamp;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public long getPostedOn() {

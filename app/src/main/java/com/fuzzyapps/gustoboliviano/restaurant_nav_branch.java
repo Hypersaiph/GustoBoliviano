@@ -83,9 +83,7 @@ public class restaurant_nav_branch extends Fragment {
     public void updateRecyclerView(){
         mAdapter.notifyDataSetChanged();
     }
-
-    public class branchAdapter extends RecyclerView.Adapter<branchAdapter.ViewHolder> implements OnMapReadyCallback {
-        private GoogleMap map;
+    public class branchAdapter extends RecyclerView.Adapter<branchAdapter.ViewHolder> {
         private ArrayList<Branch> branchArrayList = new ArrayList<>();
         private final Picasso picasso;
         private Context context;
@@ -94,18 +92,17 @@ public class restaurant_nav_branch extends Fragment {
         // you provide access to all the views for a data item in a view holder
         public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            ImageView branchPositionIcon, branchPhoneIcon;
+            ImageView branchPositionIcon, branchPhoneIcon, map;
             TextView branchAddress, branchPhone;
             LinearLayout itemLayout;
-            MapView mapView;
             ViewHolder(View view) {
                 super(view);
+                map = (ImageView) view.findViewById(R.id.map);
                 branchPositionIcon = (ImageView) view.findViewById(R.id.branchPositionIcon);
                 branchPhoneIcon = (ImageView) view.findViewById(R.id.branchPhoneIcon);
                 branchAddress = (TextView) view.findViewById(R.id.branchAddress);
                 branchPhone = (TextView) view.findViewById(R.id.branchPhone);
                 itemLayout = (LinearLayout) view.findViewById(R.id.itemLayout);
-                mapView = (MapView) view.findViewById(R.id.mapView);
             }
         }
         // Provide a suitable constructor (depends on the kind of dataset)
@@ -136,7 +133,11 @@ public class restaurant_nav_branch extends Fragment {
             }catch (Exception e){
             }
             try{
-               holder.mapView.getMapAsync(this);
+                picasso.load("https://maps.googleapis.com/maps/api/staticmap?" +
+                        "&center="+branchArrayList.get(position).getLatitude()+","+branchArrayList.get(position).getLongitude()+
+                        "&zoom=18&size=600x240&maptype=roadmap"+
+                        "&markers=color:red%7C"+branchArrayList.get(position).getLatitude()+","+branchArrayList.get(position).getLongitude()+"&key="+Globals.staticMapsApiKey)
+                        .into(holder.map);
             }catch (Exception e){}
 
         }
@@ -144,10 +145,6 @@ public class restaurant_nav_branch extends Fragment {
         @Override
         public int getItemCount() {
             return branchArrayList.size();
-        }
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            map = googleMap;
         }
     }
     private void getAllBranchesFromRestaurant(String restaurantID) {
@@ -160,8 +157,11 @@ public class restaurant_nav_branch extends Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Branch branch = child.getValue(Branch.class);
-                    branchArrayList.add(branch);
-                    updateRecyclerView();
+                    branch.setId(child.getKey());
+                    if(!doesNotExist(branch.getId())){
+                        branchArrayList.add(branch);
+                        updateRecyclerView();
+                    }
                 }
             }
 
@@ -170,5 +170,15 @@ public class restaurant_nav_branch extends Fragment {
 
             }
         });
+    }
+
+    private boolean doesNotExist(String idBranch) {
+        boolean exists = false;
+        for (int i=0;i<branchArrayList.size();i++){
+            if(branchArrayList.get(i).getId().equals(idBranch)){
+                exists = true;
+            }
+        }
+        return exists;
     }
 }
