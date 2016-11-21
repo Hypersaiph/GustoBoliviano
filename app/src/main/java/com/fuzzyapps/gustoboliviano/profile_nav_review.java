@@ -64,13 +64,14 @@ public class profile_nav_review extends Fragment {
         mainBranchQuery.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
                 ReviewForm review = new ReviewForm();
-                review.setId(dataSnapshot.getKey());
-                review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
+                review.setEstablishmentID(dataSnapshot.child("establishmentID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));
                 review.setTitle(dataSnapshot.child("title").getValue(String.class));
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
+                review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setId(dataSnapshot.getKey());
                 reviewArrayList.add(review);
                 updateRecyclerView();
                 /*Log.e("key",""+dataSnapshot.getKey());
@@ -78,13 +79,15 @@ public class profile_nav_review extends Fragment {
             }
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 ReviewForm review = new ReviewForm();
-                review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
+                review.setEstablishmentID(dataSnapshot.child("establishmentID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));
                 review.setTitle(dataSnapshot.child("title").getValue(String.class));
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
-                int search = Search(review.getUserID());
+                review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setId(dataSnapshot.getKey());
+                int search = Search(review.getId());
                 reviewArrayList.set(search, review);
                 updateRecyclerView();
                 Log.e("updated",""+dataSnapshot.getKey());
@@ -96,10 +99,10 @@ public class profile_nav_review extends Fragment {
             public void onCancelled(DatabaseError firebaseError) { }
         });
     }
-    public int Search(String userID) {
+    public int Search(String reviewID) {
         int position = 0;
         for(int i=0 ; i< reviewArrayList.size(); i++){
-            if(reviewArrayList.get(i).getUserID().equals(userID)){
+            if(reviewArrayList.get(i).getId().equals(reviewID)){
                 position = i;
                 break;
             }

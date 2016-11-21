@@ -6,7 +6,7 @@ package com.fuzzyapps.gustoboliviano;
 
 public class Globals {
     static String userID;
-    static String restaurantID;
+    static String establishmentID;
     static String visitedID;
     static String productID = "";
     static String staticMapsApiKey = "AIzaSyBgECeE5TOaXa9vI2dGL_paEynWk4J-AU0";

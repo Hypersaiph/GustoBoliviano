@@ -9,7 +9,7 @@ public class Product {
     public String image_url;        // url de la imagen
     public String description;        // url de la imagen
     public String name;             //nombre del producto
-    public String date;             //nombre del producto
+    public long date;             //nombre del producto
     public int likes;               //numero de likes
     public String price;               //Rango de 1 a 5
     public double rating;           //Rango de 0 a 5
@@ -19,7 +19,8 @@ public class Product {
 
     }
 
-    public Product(String id, String image_url, String description, String name, String date, int likes, String price, double rating, int countRating, boolean available) {
+    public Product(boolean available, String id, String image_url, String description, String name, long date, int likes, String price, double rating, int countRating) {
+        this.available = available;
         this.id = id;
         this.image_url = image_url;
         this.description = description;
@@ -29,7 +30,6 @@ public class Product {
         this.price = price;
         this.rating = rating;
         this.countRating = countRating;
-        this.available = available;
     }
 
     public String getPrice() {
@@ -64,11 +64,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

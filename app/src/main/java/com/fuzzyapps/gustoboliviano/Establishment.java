@@ -7,7 +7,7 @@ package com.fuzzyapps.gustoboliviano;
 public class Establishment {
     public String id;              //User ID
     public String banner_url;      //url to banner image
-    public String date;            //registration date
+    public long date;            //registration date
     public String description;     //restaurant´s description
     public String email;           //restaurant´s email
     public String image_url;       //url to icon image
@@ -30,7 +30,7 @@ public class Establishment {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Establishment(String id, String banner_url, String date, String description, String email, String image_url, String name, String type, String openFromDay, String openToDay, String openTime, String closeTime, String phone, String webPage, String address, double rating, int following, int followers, boolean open, boolean validated) {
+    public Establishment(String id, String banner_url, long date, String description, String email, String image_url, String name, String type, String openFromDay, String openToDay, String openTime, String closeTime, String phone, String webPage, String address, double rating, int following, int followers, boolean open, boolean validated) {
         this.id = id;
         this.banner_url = banner_url;
         this.date = date;
@@ -69,11 +69,11 @@ public class Establishment {
         this.banner_url = banner_url;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

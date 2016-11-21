@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/review_inputLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,9 +17,8 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/profileImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/asd"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             app:civ_border_color="@color/white"
             app:civ_border_width="3dp" />
     </LinearLayout>
@@ -34,15 +34,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/reviewRatingBar"
             android:numStars="5"
-            android:stepSize="0.1"/>
+            android:stepSize="0.5"/>
         <TextView
             android:id="@+id/reviewStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:text="No me Gustó"
-            android:visibility="gone"/>
+            android:layout_marginBottom="4dp" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

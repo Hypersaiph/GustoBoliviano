@@ -169,6 +169,10 @@ public class nav_profileFragment extends Fragment {
         fragmentManager.beginTransaction()
                 .replace(R.id.profileFrame, new profile_nav_review())
                 .commit();
+        setQueries();
+    }
+
+    private void setQueries() {
         //FIREBASE LISTENER
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -181,21 +185,6 @@ public class nav_profileFragment extends Fragment {
                 try{
                     profileUserName.setText(user.getName());
                 }catch (Exception e){}
-                /*try{
-                    profileReviewsNumber.setText(user.getReviewsNumber()+"");
-                }catch (Exception e){
-                    profileReviewsNumber.setText(R.string.zero);
-                }*/
-                try{
-                    profileFollowersNumber.setText(user.getFollowersNumber()+"");
-                }catch (Exception e){
-                    profileFollowersNumber.setText(R.string.zero);
-                }
-                try{
-                    profileFollowingNumber.setText(user.getFollowingNumber()+"");
-                }catch (Exception e){
-                    profileFollowingNumber.setText(R.string.zero);
-                }
                 try{
                     Log.e("nav_profileFragment1",user.getImage_url()+"");
                     if(user.getImage_url() != null){
@@ -219,10 +208,6 @@ public class nav_profileFragment extends Fragment {
             }
         };
         mDatabase.child("users").child(Globals.userID).addValueEventListener(postListener);
-        setQueries();
-    }
-
-    private void setQueries() {
         Query reviewsQuery = mDatabase.child("reviewUser").child(Globals.userID).orderByChild("timestamp");
         reviewsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -230,6 +215,41 @@ public class nav_profileFragment extends Fragment {
                 Log.e("setQueries key",""+dataSnapshot.getKey());
                 Log.e("retrieve",""+dataSnapshot.getValue());
                 profileReviewsNumber.setText(dataSnapshot.getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //QUERY TO SEE WHO FOLLOWS ME
+        Query followingQuery = mDatabase.child("following").child(Globals.userID).orderByValue().equalTo(true);
+        followingQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    profileFollowersNumber.setText(dataSnapshot.getChildrenCount()+"");
+                }else{
+                    profileFollowersNumber.setText(R.string.zero);
+                }
+                Log.e("following",""+dataSnapshot.getValue());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //QUERY TO SEE WHO DO I FOLLOW AS USER
+        final Query followersQuery = mDatabase.child("followers").child(Globals.userID).orderByValue().equalTo(true);
+        followersQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    profileFollowingNumber.setText(dataSnapshot.getChildrenCount()+"");
+                }else{
+                    profileFollowingNumber.setText(R.string.zero);
+                }
+                Log.e("followers",""+dataSnapshot.getValue());
             }
 
             @Override

@@ -3,14 +3,9 @@ package com.fuzzyapps.gustoboliviano;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.SearchManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -21,10 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static android.content.Context.SEARCH_SERVICE;
 
 public class nav_searchFragment extends Fragment{
     private String TAG = "nav_searchFragment";
@@ -119,7 +110,7 @@ public class nav_searchFragment extends Fragment{
         //((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, new fragment_restaurant())
+                .replace(R.id.frame_layout, new fragment_establishment())
                 .commit();
     }
     public class adapterSearchItem extends RecyclerView.Adapter<adapterSearchItem.ViewHolder> {
@@ -156,7 +147,7 @@ public class nav_searchFragment extends Fragment{
         @Override
         public adapterSearchItem.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             // create a new view
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_restaurant, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_establishment, parent, false);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);
             return vh;
@@ -173,7 +164,7 @@ public class nav_searchFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(context, ""+holder.restairantId.getText().toString(), Toast.LENGTH_SHORT).show();
-                    Globals.restaurantID = holder.restairantId.getText().toString();
+                    Globals.establishmentID = holder.restairantId.getText().toString();
                     setRestaurantFragment();
                 }
             });

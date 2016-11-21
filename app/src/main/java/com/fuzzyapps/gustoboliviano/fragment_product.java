@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,11 +37,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class fragment_product extends Fragment{
     private String TAG = "fragment_product";
+    //REVIEW FORM VARIBALES
+    private EditText reviewTitle, reviewDescription;
+    private CircularImageView profileImage;
+    private RatingBar reviewRatingBar;
+    private LinearLayout review_inputLinearLayout;
     //UI VARIABLES
     private TextView productTittle, productDescription, productLikeNumber, productRating, productRatingStats, productPrice;
     private RatingBar productRatingBar;
@@ -133,7 +140,7 @@ public class fragment_product extends Fragment{
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ReviewForm review = new ReviewForm();
                     review.setId(child.getKey());
-                    review.setRestaurantID(child.child("restaurantID").getValue(String.class));
+                    review.setEstablishmentID(child.child("establishmentID").getValue(String.class));
                     review.setUserID(child.child("userID").getValue(String.class));
                     review.setTitle(child.child("title").getValue(String.class));
                     review.setDescription(child.child("description").getValue(String.class));
@@ -141,8 +148,12 @@ public class fragment_product extends Fragment{
                     review.setPostedOn(child.child("timestamp").getValue(long.class));
                     rating += review.getRating();
                 }
-                productRatingBar.setRating((float) (rating/dataSnapshot.getChildrenCount()));
-                productRating.setText(String.format("%.1f", (float) (rating/dataSnapshot.getChildrenCount())));
+                if(rating != 0){
+                    productRatingBar.setRating((float) (rating/dataSnapshot.getChildrenCount()));
+                    productRating.setText(String.format("%.1f", (float) (rating/dataSnapshot.getChildrenCount())));
+                }else{
+                    productRating.setText(R.string.zero);
+                }
                 productRatingStats.setText("("+dataSnapshot.getChildrenCount()+")");
             }
 
@@ -184,7 +195,7 @@ public class fragment_product extends Fragment{
 
             }
         };
-        mDatabase.child("establishment").child(Globals.restaurantID).child("product").child(Globals.productID).addValueEventListener(productListener);
+        mDatabase.child("establishment").child(Globals.establishmentID).child("product").child(Globals.productID).addValueEventListener(productListener);
     }
 
     public void updateRecyclerView(){
@@ -194,9 +205,58 @@ public class fragment_product extends Fragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view= layoutInflater.inflate(R.layout.item_review_input, null);
         builder.setView(view);
-        final RatingBar reviewRatingBar = (RatingBar) view.findViewById(R.id.reviewRatingBar);
-        final EditText reviewTitle = (EditText) view.findViewById(R.id.reviewTitle);
-        final EditText reviewDescription = (EditText) view.findViewById(R.id.reviewDescription);
+        review_inputLinearLayout = (LinearLayout) view.findViewById(R.id.review_inputLinearLayout);
+        review_inputLinearLayout.setVisibility(View.GONE);
+        profileImage = (CircularImageView) view.findViewById(R.id.profileImage);
+        reviewRatingBar = (RatingBar) view.findViewById(R.id.reviewRatingBar);
+        reviewTitle = (EditText) view.findViewById(R.id.reviewTitle);
+        reviewDescription = (EditText) view.findViewById(R.id.reviewDescription);
+        final TextView reviewStatus = (TextView) view.findViewById(R.id.reviewStatus);
+        reviewRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (rating >= 0 && rating<1){
+                    reviewStatus.setText(R.string.rate0);
+                }else{
+                    if (rating >= 1 && rating<2){
+                        reviewStatus.setText(R.string.rate1);
+                    }else{
+                        if (rating >= 2 && rating<3){
+                            reviewStatus.setText(R.string.rate2);
+                        }else{
+                            if (rating >= 3 && rating<4){
+                                reviewStatus.setText(R.string.rate3);
+                            }else{
+                                if (rating >= 4 && rating<5){
+                                    reviewStatus.setText(R.string.rate4);
+                                }else{
+                                    if (rating >= 5 ){
+                                        reviewStatus.setText(R.string.rate5);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        setUpDataFromUser();
+        mDatabase.child("users").child(Globals.userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if(user.getImage_url() != null){
+                    Picasso.with(getActivity()).load(user.getImage_url()).into(profileImage);
+                }else{
+                    Picasso.with(getActivity()).load(R.drawable.defaultprofile).into(profileImage);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 writeUserReview(reviewRatingBar.getRating(), reviewTitle.getText().toString(), reviewDescription.getText().toString());
@@ -210,15 +270,42 @@ public class fragment_product extends Fragment{
         });
         builder.show();
     }
+    private void setUpDataFromUser() {
+        mDatabase.child("reviewEstablishment").child(Globals.productID).child(Globals.userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                review_inputLinearLayout.setVisibility(View.VISIBLE);
+                ReviewForm review = new ReviewForm();
+                try{
+                    review.setTitle(dataSnapshot.child("title").getValue(String.class));
+                    reviewTitle.setText(review.getTitle());
+                }catch (Exception e){}
+                try{
+                    review.setDescription(dataSnapshot.child("description").getValue(String.class));
+                    reviewDescription.setText(review.getDescription());
+                }catch (Exception e){}
+                try {
+                    review.setRating(dataSnapshot.child("rating").getValue(Double.class));
+                    reviewRatingBar.setRating((float) review.getRating());
+                }catch (Exception e){}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void displayAlertDialogOptions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.chooseOptionReport));
         View view= layoutInflater.inflate(R.layout.item_review_options, null);
         builder.setView(view);
         builder.show();
     }
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
-        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.restaurantID, title, description, roundRating, ServerValue.TIMESTAMP);
+        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.establishmentID, title, description, roundRating, ServerValue.TIMESTAMP, Globals.productID);
         reviewEstablishmentRef.child(Globals.productID).child(Globals.userID).setValue(reviewForm);
         reviewUserRef.child(Globals.userID).child(Globals.productID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override
@@ -279,25 +366,23 @@ public class fragment_product extends Fragment{
         }
         // Replace the contents of a view (invoked by the layout manager)
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            //holder.circularImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.asd ));
-            //holder.reviewDate.setText(/*reviewArrayList.get(position).getTimestamp().toString()*/"3h");
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            holder.reviewLikeButton.setVisibility(View.GONE);
+            holder.reviewLikeNumber.setVisibility(View.GONE);
             holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
-            //holder.reviewUserName.setText(reviewArrayList.get(position).getUserID());
             holder.reviewTitle.setText(reviewArrayList.get(position).getTitle());
             holder.reviewDescription.setText(reviewArrayList.get(position).getDescription());
             holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
             holder.reviewRatingBarText.setText(holder.reviewRatingBar.getRating()+"");
-            holder.reviewLikeNumber.setText("0");
             holder.reviewLikeButton.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    Toast.makeText(context, "you like it!", Toast.LENGTH_SHORT).show();
+                    registerLike(true, reviewArrayList.get(position).getProductID(), reviewArrayList.get(position).getUserID());
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    Toast.makeText(context, "you dont like it! duh e.e", Toast.LENGTH_SHORT).show();
+                    registerLike(false, reviewArrayList.get(position).getProductID(), reviewArrayList.get(position).getUserID());
                 }
             });
             holder.reviewOptionsButton.setOnClickListener(new View.OnClickListener() {
@@ -314,11 +399,66 @@ public class fragment_product extends Fragment{
                     .centerCrop()
                     .into(holder.reviewOptionsButton);
             getAllDataFromUser(reviewArrayList.get(position).getUserID(), holder);
+            queryForTextView(holder, reviewArrayList.get(position).getId(), reviewArrayList.get(position).getProductID());
+            doILike(holder, reviewArrayList.get(position).getProductID(), reviewArrayList.get(position).getUserID());
         }
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
             return reviewArrayList.size();
+        }
+        private void queryForTextView(final ViewHolder holder, String reviewID, String productID) {
+            //QUERY TO SEE HOW MANY PEOPLE LIKES THIS REVIEW
+            Query likeQuery = mDatabase.child("reviewEstablishment").child(productID).child(reviewID).child("likes").orderByValue().equalTo(true);
+            likeQuery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    holder.reviewLikeNumber.setVisibility(View.VISIBLE);
+                    if(dataSnapshot.getValue() != null){
+                        holder.reviewLikeNumber.setText(dataSnapshot.getChildrenCount()+"");
+                    }else{
+                        holder.reviewLikeNumber.setText(R.string.zero);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        public void registerLike(boolean like, String productID, String userID){
+            Log.e("register Like",""+like);
+            Map<String, Object> userChild = new HashMap<>();
+            userChild.put(Globals.userID, like);
+            mDatabase.child("reviewEstablishment").child(productID).child(userID).child("likes").updateChildren(userChild);
+            mDatabase.child("reviewUser").child(userID).child(productID).child("likes").updateChildren(userChild);
+        }
+        private void doILike(final ViewHolder holder, String productID, String userID) {
+            //QUERY TO SEE IF I LIKE THIS COMMENTE
+            Query likeQuery = mDatabase.child("reviewEstablishment").child(productID).child(userID).child("likes").orderByKey().equalTo(Globals.userID);
+            likeQuery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    holder.reviewLikeButton.setVisibility(View.VISIBLE);
+                    boolean iLikeThisReview;
+                    if(dataSnapshot.getValue() != null){
+                        iLikeThisReview = dataSnapshot.child(Globals.userID).getValue(boolean.class);
+                        if(iLikeThisReview){
+                            holder.reviewLikeButton.setLiked(true);
+                        }else{
+                            holder.reviewLikeButton.setLiked(false);
+                        }
+                    }else{
+                        holder.reviewLikeButton.setLiked(false);
+                    }
+                    Log.e("doILike",""+dataSnapshot.getValue());
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
         public void getAllDataFromUser(String userID, final ViewHolder holder) {
             DatabaseReference mDatabase = database.getReference();
@@ -348,25 +488,29 @@ public class fragment_product extends Fragment{
         productQuery.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
                 ReviewForm review = new ReviewForm();
-                review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
+                review.setEstablishmentID(dataSnapshot.child("establishmentID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));
                 review.setTitle(dataSnapshot.child("title").getValue(String.class));
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
+                review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setId(dataSnapshot.getKey());
                 reviewArrayList.add(review);
                 updateRecyclerView();
                 Log.e("retrieve",""+dataSnapshot.getKey());
             }
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 ReviewForm review = new ReviewForm();
-                review.setRestaurantID(dataSnapshot.child("restaurantID").getValue(String.class));
+                review.setEstablishmentID(dataSnapshot.child("establishmentID").getValue(String.class));
                 review.setUserID(dataSnapshot.child("userID").getValue(String.class));
                 review.setTitle(dataSnapshot.child("title").getValue(String.class));
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
                 int search = Search(review.getUserID());
+                review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setId(dataSnapshot.getKey());
                 reviewArrayList.set(search, review);
                 updateRecyclerView();
                 Log.e("updated",""+dataSnapshot.getKey());

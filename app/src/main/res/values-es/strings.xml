@@ -10,6 +10,7 @@
     <string name="followers">seguidores</string>
     <string name="following_lower_case">siguiendo</string>
     <string name="follow">SEGUIR</string>
+    <string name="unfollow">Dejar de seguir</string>
     <string name="following">SIGUIENDO</string>
     <string name="open">Abierto</string>
     <string name="closed">Cerrado</string>
@@ -53,6 +54,15 @@
     <string name="menu4">Notificaciones</string>
     <string name="menu5">Perfil</string>
     <string name="more">Más</string>
+    <string name="unFollowMessage1">¿Dejar de seguir a</string>
+    <string name="unFollowMessage2">\?</string>
+    <string name="chooseOptionReport">Elija la razón para reportar esta reseña:</string>
+    <string name="rate0">Asqueroso</string>
+    <string name="rate1">Repugnante</string>
+    <string name="rate2">Horrible</string>
+    <string name="rate3">Delicioso!</string>
+    <string name="rate4">Rico!</string>
+    <string name="rate5">Sabroso!</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

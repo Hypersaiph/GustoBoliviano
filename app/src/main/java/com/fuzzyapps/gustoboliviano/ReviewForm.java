@@ -9,7 +9,8 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class ReviewForm {
     public String userID;
-    public String restaurantID;
+    public String establishmentID;
+    public String productID;
     public String title;
     public String description;
     public double rating;
@@ -19,14 +20,22 @@ public class ReviewForm {
     public ReviewForm(){
 
     }
-    public ReviewForm(String userID, String restaurantID, String title, String description, double rating, Map<String, String> timestamp) {
-        super();
+    public ReviewForm(String userID, String establishmentID, String title, String description, double rating, Map<String, String> timestamp, String productID) {
         this.userID = userID;
-        this.restaurantID = restaurantID;
-        this.title= title;
+        this.establishmentID = establishmentID;
+        this.title = title;
         this.description = description;
         this.rating = rating;
         this.timestamp = timestamp;
+        this.productID = productID;
+    }
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public String getId() {
@@ -52,12 +61,12 @@ public class ReviewForm {
         this.userID = userID;
     }
 
-    public String getRestaurantID() {
-        return restaurantID;
+    public String getEstablishmentID() {
+        return establishmentID;
     }
 
-    public void setRestaurantID(String restaurantID) {
-        this.restaurantID = restaurantID;
+    public void setEstablishmentID(String establishmentID) {
+        this.establishmentID = establishmentID;
     }
 
     public String getTitle() {

@@ -10,6 +10,7 @@
     <string name="followers">followers</string>
     <string name="following_lower_case">following</string>
     <string name="follow">FOLLOW</string>
+    <string name="unfollow">Unfollow</string>
     <string name="following">FOLLOWING</string>
     <string name="open">Open</string>
     <string name="closed">Closed</string>
@@ -53,6 +54,16 @@
     <string name="menu4">Notifications</string>
     <string name="menu5">Profile</string>
     <string name="more">More</string>
+    <string name="unFollowMessage1">Stop following</string>
+    <string name="unFollowMessage2">\?</string>
+    <string name="chooseOptionReport">Choose the reason for reporting this review:</string>
+    <string name="rate0">Revolting</string>
+    <string name="rate1">Disgusting</string>
+    <string name="rate2">Horrible</string>
+    <string name="rate3">Delicious!</string>
+    <string name="rate4">Yummy!</string>
+    <string name="rate5">Tasty!</string>
+
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

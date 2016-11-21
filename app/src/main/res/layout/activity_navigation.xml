@@ -15,7 +15,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/CoordinatorLayout01"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/navigation_bar_height"
         android:layout_alignParentBottom="true">
         <it.sephiroth.android.library.bottomnavigation.BottomNavigation
             android:id="@+id/BottomNavigation"
