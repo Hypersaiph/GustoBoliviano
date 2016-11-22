@@ -1,6 +1,7 @@
 package com.fuzzyapps.gustoboliviano;
 
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -175,8 +176,7 @@ public class establishment_nav_review extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             //holder.circularImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.asd ));
             //holder.reviewDate.setText(/*reviewArrayList.get(position).getTimestamp().toString()*/"3h");
-            holder.reviewLikeButton.setVisibility(View.GONE);
-            holder.reviewLikeNumber.setVisibility(View.GONE);
+            holder.reviewLikeButton.setEnabled(false);
             holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
             //holder.reviewUserName.setText(reviewArrayList.get(position).getUserID());
             holder.reviewTitle.setText(reviewArrayList.get(position).getTitle());
@@ -202,6 +202,24 @@ public class establishment_nav_review extends Fragment {
                     displayAlertDialogOptions("reviewEstablishment/"+reviewArrayList.get(position).getEstablishmentID()+"/"+reviewArrayList.get(position).getId()+"/", Globals.userID, reviewArrayList.get(position).getUserID());
                 }
             });
+            holder.circularImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!Globals.userID.equals(reviewArrayList.get(position).getUserID())) {
+                        Globals.visitedID = reviewArrayList.get(position).getUserID();
+                        setProductFragment();
+                    }
+                }
+            });
+            holder.reviewUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!Globals.userID.equals(reviewArrayList.get(position).getUserID())) {
+                        Globals.visitedID = reviewArrayList.get(position).getUserID();
+                        setProductFragment();
+                    }
+                }
+            });
             //Picasso Image holder
             picasso.cancelRequest(holder.reviewOptionsButton);
             picasso.load(R.mipmap.ic_more_vert_black_24dp)
@@ -224,7 +242,6 @@ public class establishment_nav_review extends Fragment {
             likeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    holder.reviewLikeNumber.setVisibility(View.VISIBLE);
                     if(dataSnapshot.getValue() != null){
                         holder.reviewLikeNumber.setText(dataSnapshot.getChildrenCount()+"");
                     }else{
@@ -252,7 +269,7 @@ public class establishment_nav_review extends Fragment {
             likeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    holder.reviewLikeButton.setVisibility(View.VISIBLE);
+                    holder.reviewLikeButton.setEnabled(true);
                     boolean iLikeThisReview;
                     if(dataSnapshot.getValue() != null){
                         iLikeThisReview = dataSnapshot.child(Globals.userID).getValue(boolean.class);
@@ -295,16 +312,8 @@ public class establishment_nav_review extends Fragment {
     }
     // FIREBASE FUNCTIONS
     private void listAllReviewsFor(String restauranID) {
-        /*reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //READ FINALIZED
-                Log.e("rest", "We're done loading the initial: "+dataSnapshot.getChildrenCount()+" items");
-                updateRecyclerView();
-            }
-            public void onCancelled(DatabaseError firebaseError) { }
-        });*/
-        Query mainBranchQuery = reviewRef.child(restauranID).orderByChild("timestamp");
-        mainBranchQuery.addChildEventListener(new ChildEventListener() {
+        Query reviewQuery = reviewRef.child(restauranID).orderByChild("timestamp");
+        reviewQuery.addChildEventListener(new ChildEventListener() {
             public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
                 ReviewForm review = new ReviewForm();
                 review.setEstablishmentID(dataSnapshot.child("establishmentID").getValue(String.class));
@@ -340,7 +349,7 @@ public class establishment_nav_review extends Fragment {
         });
     }
     public int Search(String userID) {
-        int position = 0;
+        int position = -1;
         for(int i=0 ; i< reviewArrayList.size(); i++){
             if(reviewArrayList.get(i).getUserID().equals(userID)){
                 position = i;
@@ -349,5 +358,11 @@ public class establishment_nav_review extends Fragment {
         }
         Log.e("Search",""+position);
         return position;
+    }
+    public void setProductFragment(){
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new visit_profileFragment())
+                .commit();
     }
 }

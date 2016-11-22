@@ -310,11 +310,13 @@ public class establishment_nav_profile extends Fragment implements OnMapReadyCal
                 Log.e("retrieve",""+dataSnapshot.getValue());
                 establishmentRatingNumber.setText("("+dataSnapshot.getChildrenCount()+")");
                 double rating = 0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ReviewForm review = new ReviewForm();
-                    review.setRating(child.child("rating").getValue(Double.class));
-                    rating += review.getRating();
-                }
+                try {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        ReviewForm review = new ReviewForm();
+                        review.setRating(child.child("rating").getValue(Double.class));
+                        rating += review.getRating();
+                    }
+                }catch (Exception e){}
                 if(rating != 0){
                     establishmentRatingBar.setRating((float) (rating/dataSnapshot.getChildrenCount()));
                     establishmentRating.setText(String.format("%.1f", (float) (rating/dataSnapshot.getChildrenCount())));

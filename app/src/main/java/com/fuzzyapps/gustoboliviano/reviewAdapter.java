@@ -88,8 +88,7 @@ public class reviewAdapter extends RecyclerView.Adapter<reviewAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.reviewLikeButton.setVisibility(View.GONE);
-        holder.reviewLikeNumber.setVisibility(View.GONE);
+        holder.reviewLikeButton.setEnabled(false);
         holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
         holder.reviewTitle.setText(reviewArrayList.get(position).getTitle());
         holder.reviewDescription.setText(reviewArrayList.get(position).getDescription());
@@ -141,7 +140,6 @@ public class reviewAdapter extends RecyclerView.Adapter<reviewAdapter.ViewHolder
         likeQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                holder.reviewLikeNumber.setVisibility(View.VISIBLE);
                 if(dataSnapshot.getValue() != null){
                     holder.reviewLikeNumber.setText(dataSnapshot.getChildrenCount()+"");
                 }else{
@@ -170,7 +168,7 @@ public class reviewAdapter extends RecyclerView.Adapter<reviewAdapter.ViewHolder
         likeQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                holder.reviewLikeButton.setVisibility(View.VISIBLE);
+                holder.reviewLikeButton.setEnabled(true);
                 boolean iLikeThisReview;
                 if(dataSnapshot.getValue() != null){
                     iLikeThisReview = dataSnapshot.child(Globals.userID).getValue(boolean.class);

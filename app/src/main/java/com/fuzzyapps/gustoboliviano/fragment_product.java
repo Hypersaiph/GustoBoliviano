@@ -1,6 +1,7 @@
 package com.fuzzyapps.gustoboliviano;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -401,8 +402,7 @@ public class fragment_product extends Fragment{
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.reviewLikeButton.setVisibility(View.GONE);
-            holder.reviewLikeNumber.setVisibility(View.GONE);
+            holder.reviewLikeButton.setEnabled(false);
             holder.reviewRatingBar.setRating((float)reviewArrayList.get(position).getRating());
             holder.reviewTitle.setText(reviewArrayList.get(position).getTitle());
             holder.reviewDescription.setText(reviewArrayList.get(position).getDescription());
@@ -423,6 +423,24 @@ public class fragment_product extends Fragment{
                 @Override
                 public void onClick(View v) {
                     displayAlertDialogOptions("reviewEstablishment/"+reviewArrayList.get(position).getProductID()+"/"+reviewArrayList.get(position).getId()+"/", Globals.userID, reviewArrayList.get(position).getUserID());
+                }
+            });
+            holder.circularImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!Globals.userID.equals(reviewArrayList.get(position).getUserID())) {
+                        Globals.visitedID = reviewArrayList.get(position).getUserID();
+                        setProductFragment();
+                    }
+                }
+            });
+            holder.reviewUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!Globals.userID.equals(reviewArrayList.get(position).getUserID())) {
+                        Globals.visitedID = reviewArrayList.get(position).getUserID();
+                        setProductFragment();
+                    }
                 }
             });
             //Picasso Image holder
@@ -447,7 +465,6 @@ public class fragment_product extends Fragment{
             likeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    holder.reviewLikeNumber.setVisibility(View.VISIBLE);
                     if(dataSnapshot.getValue() != null){
                         holder.reviewLikeNumber.setText(dataSnapshot.getChildrenCount()+"");
                     }else{
@@ -474,7 +491,7 @@ public class fragment_product extends Fragment{
             likeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    holder.reviewLikeButton.setVisibility(View.VISIBLE);
+                    holder.reviewLikeButton.setEnabled(true);
                     boolean iLikeThisReview;
                     if(dataSnapshot.getValue() != null){
                         iLikeThisReview = dataSnapshot.child(Globals.userID).getValue(boolean.class);
@@ -566,5 +583,11 @@ public class fragment_product extends Fragment{
         }
         Log.e("Search",""+position);
         return position;
+    }
+    public void setProductFragment(){
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, new visit_profileFragment())
+                .commit();
     }
 }

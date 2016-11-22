@@ -5,4 +5,6 @@
     android:id="@+id/restaurantPromotions"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/general_margin"
+    android:layout_marginRight="@dimen/general_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

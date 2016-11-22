@@ -174,7 +174,7 @@ public class nav_profileFragment extends Fragment {
 
     private void setQueries() {
         //FIREBASE LISTENER
-        ValueEventListener postListener = new ValueEventListener() {
+        ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -207,7 +207,7 @@ public class nav_profileFragment extends Fragment {
                 // ...
             }
         };
-        mDatabase.child("users").child(Globals.userID).addValueEventListener(postListener);
+        mDatabase.child("users").child(Globals.userID).addValueEventListener(userListener);
         Query reviewsQuery = mDatabase.child("reviewUser").child(Globals.userID).orderByChild("timestamp");
         reviewsQuery.addValueEventListener(new ValueEventListener() {
             @Override

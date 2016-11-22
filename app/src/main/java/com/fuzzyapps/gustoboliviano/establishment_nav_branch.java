@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,8 +151,12 @@ public class establishment_nav_branch extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Branch branch = child.getValue(Branch.class);
                     branch.setId(child.getKey());
-                    if(!doesNotExist(branch.getId())){
+                    int search = Search(branch.getId());
+                    if( search == -1){
                         branchArrayList.add(branch);
+                        updateRecyclerView();
+                    }else{
+                        branchArrayList.set(search, branch);
                         updateRecyclerView();
                     }
                 }
@@ -164,13 +169,15 @@ public class establishment_nav_branch extends Fragment {
         });
     }
 
-    private boolean doesNotExist(String idBranch) {
-        boolean exists = false;
-        for (int i=0;i<branchArrayList.size();i++){
-            if(branchArrayList.get(i).getId().equals(idBranch)){
-                exists = true;
+    public int Search(String branchID) {
+        int position = -1;
+        for(int i=0 ; i< branchArrayList.size(); i++){
+            if(branchArrayList.get(i).getId().equals(branchID)){
+                position = i;
+                break;
             }
         }
-        return exists;
+        Log.e("Search",""+position);
+        return position;
     }
 }
