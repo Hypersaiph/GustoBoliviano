@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -74,12 +76,45 @@ public class establishment_nav_review extends Fragment {
         recyclerViewReviews.setAdapter(mAdapter);
         listAllReviewsFor(Globals.establishmentID);
     }
-    private void displayAlertDialogOptions() {
+    private void displayAlertDialogOptions(final String link, final String userID, final String reportedUserID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.chooseOptionReport));
         View view= layoutInflater.inflate(R.layout.item_review_options, null);
+        Button offensiveContent = (Button) view.findViewById(R.id.offensiveContent);
+        Button spam = (Button) view.findViewById(R.id.spam);
         builder.setView(view);
-        builder.show();
+        final AlertDialog alert = builder.create();
+        offensiveContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Report report = new Report(link, userID, reportedUserID, "Offensive Content", "Establishment Review", ServerValue.TIMESTAMP);
+                mDatabase.child("report").push().setValue(report, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        try {
+                            Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){}
+                    }
+                });
+                alert.cancel();
+            }
+        });
+        spam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Report report = new Report(link, userID, reportedUserID, "Spam or Fraud", "Establishment Review", ServerValue.TIMESTAMP);
+                mDatabase.child("report").push().setValue(report, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        try {
+                            Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){}
+                    }
+                });
+                alert.cancel();
+            }
+        });
+        alert.show();
     }
     public void updateRecyclerView(){
         mAdapter.notifyDataSetChanged();
@@ -164,7 +199,7 @@ public class establishment_nav_review extends Fragment {
             holder.reviewOptionsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    displayAlertDialogOptions();
+                    displayAlertDialogOptions("reviewEstablishment/"+reviewArrayList.get(position).getEstablishmentID()+"/"+reviewArrayList.get(position).getId()+"/", Globals.userID, reviewArrayList.get(position).getUserID());
                 }
             });
             //Picasso Image holder

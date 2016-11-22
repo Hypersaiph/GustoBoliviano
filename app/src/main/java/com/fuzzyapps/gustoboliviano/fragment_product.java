@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -296,12 +297,45 @@ public class fragment_product extends Fragment{
             }
         });
     }
-    private void displayAlertDialogOptions() {
+    private void displayAlertDialogOptions(final String link, final String userID, final String reportedUserID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.chooseOptionReport));
         View view= layoutInflater.inflate(R.layout.item_review_options, null);
+        Button offensiveContent = (Button) view.findViewById(R.id.offensiveContent);
+        Button spam = (Button) view.findViewById(R.id.spam);
         builder.setView(view);
-        builder.show();
+        final AlertDialog alert = builder.create();
+        offensiveContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Report report = new Report(link, userID, reportedUserID, "Offensive Content", "Product Review", ServerValue.TIMESTAMP);
+                mDatabase.child("report").push().setValue(report, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        try {
+                            Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){}
+                    }
+                });
+                alert.cancel();
+            }
+        });
+        spam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Report report = new Report(link, userID, reportedUserID, "Spam or Fraud", "Product Review", ServerValue.TIMESTAMP);
+                mDatabase.child("report").push().setValue(report, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        try {
+                            Toast.makeText(getActivity(), R.string.Success, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){}
+                    }
+                });
+                alert.cancel();
+            }
+        });
+        alert.show();
     }
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
@@ -388,7 +422,7 @@ public class fragment_product extends Fragment{
             holder.reviewOptionsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    displayAlertDialogOptions();
+                    displayAlertDialogOptions("reviewEstablishment/"+reviewArrayList.get(position).getProductID()+"/"+reviewArrayList.get(position).getId()+"/", Globals.userID, reviewArrayList.get(position).getUserID());
                 }
             });
             //Picasso Image holder
