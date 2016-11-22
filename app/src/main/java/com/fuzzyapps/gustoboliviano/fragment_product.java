@@ -51,14 +51,14 @@ public class fragment_product extends Fragment{
     private RatingBar reviewRatingBar;
     private LinearLayout review_inputLinearLayout;
     //UI VARIABLES
-    private TextView productTittle, productDescription, productLikeNumber, productRating, productRatingStats, productPrice;
+    private TextView productTittle, productDescription, productRating, productRatingStats, productPrice;
     private RatingBar productRatingBar;
-    private LikeButton productLikeButton;
     private ImageView productFavoritesImage, productBanner;//ic_bookmark_border_black_24dp
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private LayoutInflater layoutInflater;
+    private boolean isItMyFavorite;
     //FIREBASE VARIABLES
     private FirebaseDatabase database;
     private DatabaseReference reviewEstablishmentRef, reviewUserRef, mDatabase;
@@ -80,16 +80,13 @@ public class fragment_product extends Fragment{
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         productTittle = (TextView) view.findViewById(R.id.productTittle);
         productDescription = (TextView) view.findViewById(R.id.productDescription);
-        productLikeNumber = (TextView) view.findViewById(R.id.productLikeNumber);
         productRating = (TextView) view.findViewById(R.id.productRating);
         productRatingStats = (TextView) view.findViewById(R.id.productRatingStats);
         productPrice = (TextView) view.findViewById(R.id.productPrice);
         productRatingBar = (RatingBar) view.findViewById(R.id.productRatingBar);
-        productLikeButton = (LikeButton) view.findViewById(R.id.productLikeButton);
         productFavoritesImage = (ImageView) view.findViewById(R.id.productFavoritesImage);
         productBanner = (ImageView) view.findViewById(R.id.productBanner);
-        productFavoritesImage.setVisibility(View.GONE);
-        productLikeButton.setVisibility(View.GONE);
+        productFavoritesImage.setEnabled(false);
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -107,8 +104,6 @@ public class fragment_product extends Fragment{
         listAllReviewsFor(Globals.productID);
         addRealTimeValueEventListener();
         setQueries();
-
-
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle("");
         AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
@@ -127,6 +122,16 @@ public class fragment_product extends Fragment{
                     collapsingToolbarLayout.setTitle("");
                     //carefull there should a space between double quote otherwise it wont work
                     isShow = false;
+                }
+            }
+        });
+        productFavoritesImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isItMyFavorite){
+                    addToFavorites(false);
+                }else{
+                    addToFavorites(true);
                 }
             }
         });
@@ -157,6 +162,34 @@ public class fragment_product extends Fragment{
                     productRating.setText(R.string.zero);
                 }
                 productRatingStats.setText("("+dataSnapshot.getChildrenCount()+")");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //QUERY TO SEE IF ITS IN MY FAVORITES
+        mDatabase.child("favorites").child(Globals.userID).child(Globals.productID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                productFavoritesImage.setEnabled(true);
+                try {
+                    Log.e("datasnapshot", dataSnapshot.getValue().toString());
+                    Favorites favorites = new Favorites();
+                    favorites.setActive(dataSnapshot.child("active").getValue(boolean.class));
+                    if(favorites.isActive()){
+                        isItMyFavorite = true;
+                        Picasso.with(getActivity()).load(R.mipmap.ic_bookmark_black_24dp).into(productFavoritesImage);
+                    }else{
+                        isItMyFavorite = false;
+                        Picasso.with(getActivity()).load(R.mipmap.ic_bookmark_border_black_24dp).into(productFavoritesImage);
+                    }
+                }catch (Exception e){
+                    isItMyFavorite = false;
+                    Picasso.with(getActivity()).load(R.mipmap.ic_bookmark_border_black_24dp).into(productFavoritesImage);
+                    Log.e("error", e.getMessage());
+                }
             }
 
             @Override
@@ -589,5 +622,9 @@ public class fragment_product extends Fragment{
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, new visit_profileFragment())
                 .commit();
+    }
+    private void addToFavorites(boolean favorite) {
+        Favorites favorites = new Favorites(Globals.productID, Globals.establishmentID, ServerValue.TIMESTAMP, favorite);
+        mDatabase.child("favorites").child(Globals.userID).child(Globals.productID).setValue(favorites);
     }
 }

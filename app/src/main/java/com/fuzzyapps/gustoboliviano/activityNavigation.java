@@ -66,6 +66,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
     }
     @Override
     public void onMenuItemReselect(@IdRes final int itemId, final int position) {
+        changeToolbarColor(position);
         //Toast.makeText(activityNavigation.this,"2. "+position,Toast.LENGTH_SHORT).show();
     }
     private void changeToolbarColor(int position) {
@@ -82,6 +83,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_startFragment())
+                        .addToBackStack("")
                         .commit();
                 break;
             case 1:
@@ -90,6 +92,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_searchFragment())
+                        .addToBackStack("")
                         .commit();
                 break;
             case 2:
@@ -98,6 +101,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 //getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_mapFragment())
+                        .addToBackStack("")
                         .commit();
                 break;
             case 3:
@@ -106,6 +110,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 //getSupportActionBar().hide();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_notificationFragment())
+                        .addToBackStack("")
                         .commit();
                 //.replace(R.id.frame_layout, new nav_notificationFragment())
                 break;
@@ -115,6 +120,7 @@ public class activityNavigation extends activityBase implements BottomNavigation
                 //getSupportActionBar().show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_layout, new nav_profileFragment())
+                        .addToBackStack("")
                         .commit();
                 break;
         }

@@ -111,6 +111,7 @@ public class nav_searchFragment extends Fragment{
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, new fragment_establishment())
+                .addToBackStack("")
                 .commit();
     }
     public class adapterSearchItem extends RecyclerView.Adapter<adapterSearchItem.ViewHolder> {
@@ -184,6 +185,7 @@ public class nav_searchFragment extends Fragment{
     }
     // FIREBASE FUNCTIONS
     private void listAllRestaurants() {
+        RestaurantArrayList.clear();
         DatabaseReference restaurantsRef = database.getReference("establishment");
         restaurantsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {

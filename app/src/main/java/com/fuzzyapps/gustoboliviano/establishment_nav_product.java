@@ -179,6 +179,7 @@ public class establishment_nav_product extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, new fragment_product())
+                .addToBackStack("")
                 .commit();
     }
 }

@@ -21,7 +21,7 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
     public nav_mapFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /*if (view != null) {
+        if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
@@ -31,8 +31,13 @@ public class nav_mapFragment extends Fragment implements OnMapReadyCallback {
         } catch (InflateException e) {
             //Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+        return view;
+        /*try {
+            view = inflater.inflate(R.layout.nav_map_fragment, container, false);
+        } catch (InflateException e) {
+            //Toast.makeText(getActivity(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
         return view;*/
-        return inflater.inflate(R.layout.nav_map_fragment, container, false);
     }
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {

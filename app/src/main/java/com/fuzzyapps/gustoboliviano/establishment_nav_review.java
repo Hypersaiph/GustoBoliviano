@@ -363,6 +363,7 @@ public class establishment_nav_review extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, new visit_profileFragment())
+                .addToBackStack("")
                 .commit();
     }
 }
