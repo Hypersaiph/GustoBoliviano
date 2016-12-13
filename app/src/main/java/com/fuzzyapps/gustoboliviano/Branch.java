@@ -13,6 +13,7 @@ public class Branch {
     public String phone;
     public String latitude;
     public String longitude;
+    public boolean main;
     public Branch(){
 
     }
@@ -38,6 +39,14 @@ public class Branch {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isMain() {
+        return main;
+    }
+
+    public void setMain(boolean main) {
+        this.main = main;
     }
 
     public String getLatitude() {

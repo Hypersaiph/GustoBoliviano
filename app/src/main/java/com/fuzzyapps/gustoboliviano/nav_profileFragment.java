@@ -54,7 +54,6 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class nav_profileFragment extends Fragment {
     //UI VARIABLES
     private TextView profileReviewsNumber, profileFollowersNumber, profileFollowingNumber, profileStatus, profileUserName, profileUploadStatus;
-    private FancyButton profileFollowButton;
     private CircularImageView profileImage;
     private ProgressBar profileImageProgressBar, chargeEditStatus;
     private Button profileEditButton;

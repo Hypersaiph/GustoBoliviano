@@ -322,8 +322,13 @@ public class establishment_nav_review extends Fragment {
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
-                review.setId(dataSnapshot.getKey());
-                reviewArrayList.add(review);
+                try {
+                    review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
+                    review.setId(dataSnapshot.getKey());
+                    if (review.isVisible()) {
+                        reviewArrayList.add(review);
+                    }
+                }catch (Exception e){}
                 updateRecyclerView();
                 Log.e("retrieve",""+dataSnapshot.getKey());
             }
@@ -335,9 +340,22 @@ public class establishment_nav_review extends Fragment {
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
+                review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
                 review.setId(dataSnapshot.getKey());
-                int search = Search(review.getUserID());
-                reviewArrayList.set(search, review);
+                int search = Search(review.getId());
+                if(review.isVisible()){
+                    try{
+                        reviewArrayList.set(search, review);
+                    }catch (Exception e){
+                        reviewArrayList.add(review);
+                    }
+                }else{
+                    try {
+                        reviewArrayList.remove(search);
+                    }catch (Exception e){
+                        reviewArrayList.clear();
+                    }
+                }
                 updateRecyclerView();
                 Log.e("updated",""+dataSnapshot.getKey());
             }
@@ -348,10 +366,10 @@ public class establishment_nav_review extends Fragment {
             public void onCancelled(DatabaseError firebaseError) { }
         });
     }
-    public int Search(String userID) {
+    public int Search(String reviewID) {
         int position = -1;
         for(int i=0 ; i< reviewArrayList.size(); i++){
-            if(reviewArrayList.get(i).getUserID().equals(userID)){
+            if(reviewArrayList.get(i).getId().equals(reviewID)){
                 position = i;
                 break;
             }

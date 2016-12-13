@@ -15,6 +15,7 @@ public class Product {
     public double rating;           //Rango de 0 a 5
     public int countRating;         //Rango de 0 a 5
     public boolean available;
+    public boolean priceVisible;
     public Product(){
 
     }
@@ -30,6 +31,14 @@ public class Product {
         this.price = price;
         this.rating = rating;
         this.countRating = countRating;
+    }
+
+    public boolean isPriceVisible() {
+        return priceVisible;
+    }
+
+    public void setPriceVisible(boolean priceVisible) {
+        this.priceVisible = priceVisible;
     }
 
     public String getPrice() {

@@ -121,13 +121,22 @@ public class establishment_nav_product extends Fragment {
                 holder.productName.setText(productArrayList.get(position).getName());
             }catch (Exception e){
             }
-            try {
+            /*try {
                 Log.e("PRICE",productArrayList.get(position).getPrice());
                 holder.productPrice.setText("");
                 for (int i=0; i< Integer.parseInt(productArrayList.get(position).getPrice()); i++){
                     holder.productPrice.append("$");
                 }
             }catch (Exception e){
+            }¨*/
+            try{
+                if(productArrayList.get(position).isPriceVisible()){
+                    holder.productPrice.setText(productArrayList.get(position).getPrice());
+                }else{
+                    holder.productPrice.setText(getResources().getString(R.string.notspecified));
+                }
+            }catch (Exception e){
+
             }
             holder.productMore.setOnClickListener(new View.OnClickListener() {
                 @Override

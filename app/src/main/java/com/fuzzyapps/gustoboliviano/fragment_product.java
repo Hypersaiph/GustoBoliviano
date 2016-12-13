@@ -211,12 +211,21 @@ public class fragment_product extends Fragment{
                 try{
                     productDescription.setText(product.getDescription());
                 }catch (Exception e){}
-                try{
+                /*try{
                     productPrice.setText("");
                     for (int i=0; i< Integer.parseInt(product.getPrice()); i++){
                         productPrice.append("$");
                     }
-                }catch (Exception e){}
+                }catch (Exception e){}*/
+                try{
+                    if(product.isPriceVisible()){
+                        productPrice.setText(product.getPrice());
+                    }else{
+                        productPrice.setText(getResources().getString(R.string.notspecified));
+                    }
+                }catch (Exception e){
+
+                }
                 try{
                     Picasso.with(getActivity()).load(product.getImage_url()).into(productBanner);
                     Log.e("image",product.getImage_url());
@@ -373,7 +382,7 @@ public class fragment_product extends Fragment{
     }
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
-        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.establishmentID, title, description, roundRating, ServerValue.TIMESTAMP, Globals.productID);
+        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.establishmentID, title, description, roundRating, ServerValue.TIMESTAMP, Globals.productID, true);
         reviewEstablishmentRef.child(Globals.productID).child(Globals.userID).setValue(reviewForm);
         reviewUserRef.child(Globals.userID).child(Globals.productID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override
@@ -580,7 +589,13 @@ public class fragment_product extends Fragment{
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
                 review.setProductID(dataSnapshot.child("productID").getValue(String.class));
                 review.setId(dataSnapshot.getKey());
-                reviewArrayList.add(review);
+                try {
+                    review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
+                    review.setId(dataSnapshot.getKey());
+                    if (review.isVisible()) {
+                        reviewArrayList.add(review);
+                    }
+                }catch (Exception e){}
                 updateRecyclerView();
                 Log.e("retrieve",""+dataSnapshot.getKey());
             }
@@ -592,10 +607,23 @@ public class fragment_product extends Fragment{
                 review.setDescription(dataSnapshot.child("description").getValue(String.class));
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
-                int search = Search(review.getUserID());
                 review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
+                int search = Search(review.getUserID());
                 review.setId(dataSnapshot.getKey());
-                reviewArrayList.set(search, review);
+                if(review.isVisible()){
+                    try{
+                        reviewArrayList.set(search, review);
+                    }catch (Exception e){
+                        reviewArrayList.add(review);
+                    }
+                }else{
+                    try {
+                        reviewArrayList.remove(search);
+                    }catch (Exception e){
+                        reviewArrayList.clear();
+                    }
+                }
                 updateRecyclerView();
                 Log.e("updated",""+dataSnapshot.getKey());
             }

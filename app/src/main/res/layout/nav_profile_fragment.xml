@@ -128,25 +128,6 @@
                     android:textColor="@color/white"
                     android:theme="@style/MaterialButton"
                     android:layout_gravity="center" />
-                <mehdi.sakout.fancybuttons.FancyButton
-                    android:id="@+id/profileFollowButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_general_margin"
-                    android:layout_marginLeft="@dimen/general_margin"
-                    android:layout_marginRight="@dimen/general_margin"
-                    android:paddingBottom="7dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="7dp"
-                    fancy:fb_ghost="true"
-                    fancy:fb_radius="7dp"
-                    fancy:fb_text="@string/follow"
-                    fancy:fb_borderColor="@color/colorAccent"
-                    fancy:fb_textColor="@color/colorAccent"
-                    fancy:fb_focusColor="@color/colorAccent"
-                    fancy:fb_borderWidth="2dp"
-                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

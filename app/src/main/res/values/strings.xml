@@ -40,6 +40,11 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string-array
+        name="languaje_array">
+        <item>English</item>
+        <item>Español</item>
+    </string-array>
     <string name="zero">0</string>
     <string name="sunday">Sun.</string>
     <string name="monday">Mon.</string>
@@ -63,7 +68,13 @@
     <string name="rate3">Delicious!</string>
     <string name="rate4">Yummy!</string>
     <string name="rate5">Tasty!</string>
-
+    <string name="language">language</string>
+    <string name="logout">Log Out</string>
+    <string name="goodbye">See you soon!</string>
+    <string name="noresult">No results found</string>
+    <string name="branchP">Main branch</string>
+    <string name="branch">branch</string>
+    <string name="notspecified">Not specified</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

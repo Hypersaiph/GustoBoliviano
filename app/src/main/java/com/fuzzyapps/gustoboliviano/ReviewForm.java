@@ -17,10 +17,11 @@ public class ReviewForm {
     public Map<String, String> timestamp;
     public long postedOn;
     public String id;
+    public boolean visible;
     public ReviewForm(){
 
     }
-    public ReviewForm(String userID, String establishmentID, String title, String description, double rating, Map<String, String> timestamp, String productID) {
+    public ReviewForm(String userID, String establishmentID, String title, String description, double rating, Map<String, String> timestamp, String productID, boolean visible) {
         this.userID = userID;
         this.establishmentID = establishmentID;
         this.title = title;
@@ -28,6 +29,15 @@ public class ReviewForm {
         this.rating = rating;
         this.timestamp = timestamp;
         this.productID = productID;
+        this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public String getProductID() {

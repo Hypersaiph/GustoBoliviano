@@ -48,14 +48,14 @@ public class nav_searchFragment extends Fragment{
         @Override
         public boolean onQueryTextSubmit(String query) {
             if(!query.equals("")){
-                Toast.makeText(getActivity(), "s:"+query, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "s:"+query, Toast.LENGTH_LONG).show();
             }
             return false;
         }
         @Override
         public boolean onQueryTextChange(String newText) {
             if(!newText.equals("")){
-                Toast.makeText(getActivity(), ":"+newText, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), ":"+newText, Toast.LENGTH_LONG).show();
             }
             return false;
         }

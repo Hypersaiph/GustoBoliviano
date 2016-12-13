@@ -253,7 +253,7 @@ public class fragment_establishment extends Fragment {
 
     private void writeUserReview(float rating, String title, String description) {
         double roundRating = (double) Math.round(rating * 100) / 100;
-        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.establishmentID, title, description, roundRating, ServerValue.TIMESTAMP, Globals.establishmentID);
+        ReviewForm reviewForm = new ReviewForm(Globals.userID,Globals.establishmentID, title, description, roundRating, ServerValue.TIMESTAMP, Globals.establishmentID, true);
         reviewEstablishmentRef.child(Globals.establishmentID).child(Globals.userID).setValue(reviewForm);
         reviewUserRef.child(Globals.userID).child(Globals.establishmentID).setValue(reviewForm, new DatabaseReference.CompletionListener() {
             @Override

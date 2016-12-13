@@ -72,7 +72,13 @@ public class profile_nav_review extends Fragment {
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
                 review.setProductID(dataSnapshot.child("productID").getValue(String.class));
                 review.setId(dataSnapshot.getKey());
-                reviewArrayList.add(review);
+                try {
+                    review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
+                    review.setId(dataSnapshot.getKey());
+                    if (review.isVisible()) {
+                        reviewArrayList.add(review);
+                    }
+                }catch (Exception e){}
                 updateRecyclerView();
                 /*Log.e("key",""+dataSnapshot.getKey());
                 Log.e("retrieve",""+dataSnapshot.getValue());*/
@@ -86,9 +92,22 @@ public class profile_nav_review extends Fragment {
                 review.setRating(dataSnapshot.child("rating").getValue(Double.class));
                 review.setPostedOn(dataSnapshot.child("timestamp").getValue(long.class));
                 review.setProductID(dataSnapshot.child("productID").getValue(String.class));
+                review.setVisible(dataSnapshot.child("visible").getValue(boolean.class));
                 review.setId(dataSnapshot.getKey());
                 int search = Search(review.getId());
-                reviewArrayList.set(search, review);
+                if(review.isVisible()){
+                    try{
+                        reviewArrayList.set(search, review);
+                    }catch (Exception e){
+                        reviewArrayList.add(review);
+                    }
+                }else{
+                    try {
+                        reviewArrayList.remove(search);
+                    }catch (Exception e){
+                        reviewArrayList.clear();
+                    }
+                }
                 updateRecyclerView();
                 Log.e("updated",""+dataSnapshot.getKey());
             }

@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:text="Firebase LogOut"
             android:layout_marginTop="5dp"
-            android:id="@+id/firebaseButton" />
+            android:id="@+id/firebaseButton"
+            android:visibility="gone"/>
 
     </LinearLayout>
     <TextView

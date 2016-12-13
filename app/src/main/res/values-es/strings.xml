@@ -40,6 +40,11 @@
         <item>Hombre</item>
         <item>Mujer</item>
     </string-array>
+    <string-array
+        name="languaje_array">
+        <item>English</item>
+        <item>Español</item>
+    </string-array>
     <string name="zero">0</string>
     <string name="sunday">Dom.</string>
     <string name="monday">Lun.</string>
@@ -63,6 +68,13 @@
     <string name="rate3">Delicioso!</string>
     <string name="rate4">Rico!</string>
     <string name="rate5">Sabroso!</string>
+    <string name="language">lenguaje</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="goodbye">Te esperamos de vuelta!</string>
+    <string name="noresult">Búsqueda sin resultados</string>
+    <string name="branchP">Sucursal Principal</string>
+    <string name="branch">Sucursal</string>
+    <string name="notspecified">Sin especificar</string>
     <!-- ICONS -->
     <string name="icon_plus">+</string>
     <!-- OPTIONS -->

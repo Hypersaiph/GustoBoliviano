@@ -166,12 +166,21 @@ public class profile_nav_favorites extends Fragment {
                         holder.productName.setText(product.getName());
                     }catch (Exception e){
                     }
-                    try {
+                    /*try {
                         holder.productPrice.setText("");
                         for (int i=0; i< Integer.parseInt(product.getPrice()); i++){
                             holder.productPrice.append("$");
                         }
                     }catch (Exception e){
+                    }*/
+                    try{
+                        if(product.isPriceVisible()){
+                            holder.productPrice.setText(product.getPrice());
+                        }else{
+                            holder.productPrice.setText(getResources().getString(R.string.notspecified));
+                        }
+                    }catch (Exception e){
+
                     }
                     holder.productMore.setOnClickListener(new View.OnClickListener() {
                         @Override
